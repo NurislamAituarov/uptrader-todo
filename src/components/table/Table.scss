@@ -1,0 +1,90 @@
+.table__content {
+  margin-top: 50px;
+  min-height: 200px;
+}
+
+h1 {
+  text-align: center;
+  color: #3e65a8;
+  margin: 20px 20px 10px 20px;
+}
+
+#notice {
+  line-height: 20px;
+  margin: 5px;
+  text-align: center;
+  background: black;
+  padding: 20px;
+}
+
+.addbar {
+  width: 50%;
+  height: 30px;
+  line-height: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.addbar_textinput {
+  width: 70%;
+  padding: 0 5px;
+}
+
+.addbar_btn {
+  width: 30%;
+  margin-left: 5px;
+}
+
+.table__content {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-around;
+}
+
+.container {
+  width: 25vw;
+  height: 90vh;
+  border: 1px solid grey;
+}
+
+h3 {
+  text-align: center;
+  margin-top: 10px;
+}
+
+ul {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 0;
+}
+
+li {
+  list-style: none;
+  width: 90%;
+  height: 100px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 5px;
+  color: black;
+  margin: 7px;
+  cursor: grab;
+  background-color: white;
+}
+
+li:hover {
+}
+
+#box {
+  width: 80%;
+  height: 70px;
+  border: 2px solid blue;
+  color: blue;
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+}
