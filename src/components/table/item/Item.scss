@@ -36,7 +36,7 @@
     background-color: rgb(225, 0, 0);
   }
   &-medium {
-    background-color: rgba(234, 179, 0, 0.681);
+    background-color: rgb(226 142 0);
   }
 
   &-low {
@@ -48,6 +48,10 @@
     line-height: 16px;
     padding: 2px;
     text-align: start;
+    span {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+        'Courier New', monospace;
+    }
   }
 }
 

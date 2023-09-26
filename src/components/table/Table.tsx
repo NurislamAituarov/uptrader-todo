@@ -16,44 +16,6 @@ export function Table() {
 
   const groups = ['Queue', 'Development', 'Done'];
 
-  const addTodo = (name: any) => {
-    setItems([
-      ...items,
-      {
-        number: 6,
-        name,
-        description: '',
-        dateCreate: '',
-        timeWork: '',
-        dateEnd: '',
-        priority: '',
-        attachedFiles: '',
-        group: 'Queue',
-        id: 6,
-        subtasks: [],
-        comments: [],
-      },
-    ]);
-    // setNotice(`${name} is added!`);
-    dispatch(addNotice(`${name} is added!`));
-    dispatch(
-      addTask({
-        number: 6,
-        name,
-        description: '',
-        dateCreate: '',
-        timeWork: '',
-        dateEnd: '',
-        priority: '',
-        attachedFiles: '',
-        group: 'Queue',
-        id: 6,
-        subtasks: [],
-        comments: [],
-      }),
-    );
-  };
-
   const moveGroup = (itemId: any, groupToMove: any) => {
     const index = items.findIndex((item) => item.id === itemId);
     const itemToMove = items[index];

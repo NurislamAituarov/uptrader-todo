@@ -43,6 +43,34 @@
       color: black;
       cursor: pointer;
     }
+
+    &-priority {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      span {
+        padding: 5px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.5s;
+        font-weight: bold;
+        background-color: grey;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+      .priority__item-high {
+        background-color: red;
+      }
+      .priority__item-medium {
+        background-color: rgb(226 142 0);
+      }
+      .priority__item-low {
+        background-color: green;
+      }
+    }
   }
 
   .btn__create {
@@ -53,6 +81,10 @@
     &:hover {
       background-color: green;
       color: white;
+    }
+
+    &:disabled {
+      pointer-events: none;
     }
   }
 }

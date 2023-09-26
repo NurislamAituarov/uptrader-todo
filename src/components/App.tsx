@@ -3,7 +3,7 @@ import { useAppSelector } from '../hooks/redux';
 import { Context } from '../lib/context';
 import './App.css';
 import { Table } from './table/Table';
-import { CreateTask } from './create-task/CreateTask';
+import { Form } from './create-task/Form';
 
 function App() {
   const [popup, setPopup] = useState('');
@@ -19,7 +19,7 @@ function App() {
           <Table />
         </main>
 
-        {popup === 'create' && <CreateTask />}
+        {popup === 'create' && <Form />}
       </div>
     </Context.Provider>
   );

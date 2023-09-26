@@ -22,12 +22,18 @@ export const Item = ({ item }: any) => {
       onDragStart={handleDragStart}
       className={['task__item', expand ? 'expand' : ''].join(' ')}>
       <div className="task__date">
-        <p className="date-create">Дата создания: {item.dateCreate}</p>
-        <p className="date-end">Дата окончания: {item.dateEnd}</p>
-        <p className="time-work">Время в работе: {item.timeWork}</p>
+        <p className="date-create">
+          Дата создания: <span>{item.dateCreate}</span>
+        </p>
+        <p className="date-end">
+          Дата окончания: <span>{item.dateEnd}</span>
+        </p>
+        <p className="time-work">
+          Время в работе: <span>{item.timeWork}</span>
+        </p>
       </div>
       <div className="title__wrapper">
-        <p className="title"> {item.name}</p>
+        <p className="title"> {item.title}</p>
         <p className="description" onClick={expandText}>
           {item.description}
         </p>
