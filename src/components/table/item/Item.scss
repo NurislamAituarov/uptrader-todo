@@ -1,0 +1,61 @@
+.task__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  padding-bottom: 30px;
+  transition: all 0.5s;
+
+  .title {
+  }
+  .description {
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 12px;
+    text-overflow: ellipsis;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-priority {
+    bottom: 5px;
+    right: 5px;
+    position: absolute;
+    width: max-content;
+    padding: 4px 25px;
+    border-radius: 6px;
+    color: white;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  &-high {
+    background-color: rgb(225, 0, 0);
+  }
+  &-medium {
+    background-color: rgba(234, 179, 0, 0.681);
+  }
+
+  &-low {
+    background-color: green;
+  }
+
+  .task__date {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 2px;
+    text-align: start;
+  }
+}
+
+.expand {
+  height: max-content;
+  .description {
+    white-space: wrap;
+    overflow: visible;
+    text-overflow: normal;
+  }
+}

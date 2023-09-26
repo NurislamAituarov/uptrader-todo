@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Column } from './column/Column';
 import './Table.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { addNotice } from '../../store/actions';
+import { addNotice, addTask } from '../../store/actions';
 
 export function Table() {
   const itemsList = useAppSelector((state) => state.state.items);
@@ -10,12 +10,48 @@ export function Table() {
   // const [notice, setNotice] = useState('');
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    setItems(itemsList);
+  }, [itemsList]);
+
   const groups = ['Queue', 'Development', 'Done'];
 
   const addTodo = (name: any) => {
-    setItems([...items, { name: name, group: 'Todos', id: 6 }]);
+    setItems([
+      ...items,
+      {
+        number: 6,
+        name,
+        description: '',
+        dateCreate: '',
+        timeWork: '',
+        dateEnd: '',
+        priority: '',
+        attachedFiles: '',
+        group: 'Queue',
+        id: 6,
+        subtasks: [],
+        comments: [],
+      },
+    ]);
     // setNotice(`${name} is added!`);
     dispatch(addNotice(`${name} is added!`));
+    dispatch(
+      addTask({
+        number: 6,
+        name,
+        description: '',
+        dateCreate: '',
+        timeWork: '',
+        dateEnd: '',
+        priority: '',
+        attachedFiles: '',
+        group: 'Queue',
+        id: 6,
+        subtasks: [],
+        comments: [],
+      }),
+    );
   };
 
   const moveGroup = (itemId: any, groupToMove: any) => {

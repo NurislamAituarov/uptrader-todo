@@ -10,6 +10,15 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: #374a5d !important;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+button,
+input,
+textarea {
+  outline: none;
+  border: none;
 }
 
 .wrapper {
@@ -22,4 +31,13 @@ body {
 
 .header {
   text-align: center;
+}
+
+.btn {
+  padding: 10px;
+  width: 100%;
+  height: 40px;
+  cursor: pointer;
+  background-color: grey;
+  border-radius: 4px;
 }
