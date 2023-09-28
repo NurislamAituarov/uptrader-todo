@@ -1,12 +1,13 @@
 .popup__create {
-  width: 400px;
+  width: 500px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
+  padding: 50px 20px;
   background-color: black;
-  border-radius: 4px;
+  border-radius: 10px;
+  z-index: 1;
 
   form {
     display: flex;
@@ -87,4 +88,13 @@
       pointer-events: none;
     }
   }
+}
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
 }

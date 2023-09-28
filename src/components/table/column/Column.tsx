@@ -1,10 +1,16 @@
-import { Item } from '../item/Item';
+import { memo, useMemo } from 'react';
+import Item from '../item/Item';
+import { IItemTask } from '../../../types';
 
-export function Column({ group, groupItems, moveGroup, items }: any) {
-  const handleDragEnter = (e: any) => {
-    return;
-  };
+interface IProps {
+  group: string;
+  groupItems: IItemTask[];
+  moveGroup: (itemId: number, groupToMove: any) => void;
+  deleteItem: (itemId: number) => void;
+  items: IItemTask[];
+}
 
+export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }: any) => {
   const handleDrop = (e: any) => {
     let id = e.dataTransfer.getData('id');
     let item = items.find((item: any) => item.id === +id);
@@ -17,7 +23,7 @@ export function Column({ group, groupItems, moveGroup, items }: any) {
   };
 
   const itemList = groupItems.map((item: any) => {
-    return <Item item={item} key={item.id} />;
+    return <Item item={item} key={item.id} deleteItem={deleteItem} />;
   });
 
   return (
@@ -34,4 +40,4 @@ export function Column({ group, groupItems, moveGroup, items }: any) {
       </ul>
     </div>
   );
-}
+});
