@@ -1,36 +1,30 @@
-import { useEffect, useState } from 'react';
 import { Column } from './column/Column';
 import './Table.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { addNotice, addTask } from '../../store/actions';
+import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
 
 export function Table() {
-  const itemsList = useAppSelector((state) => state.state.items);
-  const [items, setItems] = useState(itemsList);
-  // const [notice, setNotice] = useState('');
+  const items = useAppSelector((state) => state.state.items);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    setItems(itemsList);
-  }, [itemsList]);
 
   const groups = ['Queue', 'Development', 'Done'];
 
-  const moveGroup = (itemId: any, groupToMove: any) => {
+  const moveGroup = (itemId: number, groupToMove: string) => {
     const index = items.findIndex((item) => item.id === itemId);
     const itemToMove = items[index];
-    itemToMove.group = groupToMove;
-    setItems([...items.slice(0, index), itemToMove, ...items.slice(index + 1)]);
-    // setNotice(`${itemToMove.name} is moved to ${itemToMove.group}!`);
-    dispatch(addNotice(`${itemToMove.name} is moved to ${itemToMove.group}!`));
+    if (itemToMove) {
+      itemToMove.group = groupToMove;
+      const newItemsMoved = [...items.slice(0, index), itemToMove, ...items.slice(index + 1)];
+      dispatch(newMovedTaskItems(newItemsMoved));
+      dispatch(addNotice(`${itemToMove.title} is moved to ${itemToMove.group}!`));
+    }
   };
 
-  const DeleteItem = (itemId: any) => {
+  const deleteItem = (itemId: number) => {
     const index = items.findIndex((item) => item.id === itemId);
-    const name = items[index].name;
-    setItems(items.filter((item) => item.id !== itemId));
-    // setNotice(`${name} is deleted!`);
-    dispatch(addNotice(`${name} is deleted!`));
+    const name = items[index].title;
+    name && dispatch(addNotice(`${name} is deleted!`));
+    dispatch(removeTask(itemId));
   };
 
   const mainList = groups.map((group) => {
@@ -40,6 +34,7 @@ export function Table() {
         group={group}
         groupItems={groupItems}
         moveGroup={moveGroup}
+        deleteItem={deleteItem}
         items={items}
         key={group}
       />

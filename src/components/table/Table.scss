@@ -1,20 +1,19 @@
 .table__content {
-  margin-top: 50px;
   min-height: 200px;
-}
-
-h1 {
-  text-align: center;
-  color: #3e65a8;
-  margin: 20px 20px 10px 20px;
+  margin-top: 40px;
 }
 
 #notice {
+  position: absolute;
+  width: max-content;
+  left: 50%;
+  top: 70px;
+  transform: translate(-50%);
   line-height: 20px;
-  margin: 5px;
   text-align: center;
   background: black;
-  padding: 20px;
+  padding: 10px 20px;
+  border-radius: 4px;
 }
 
 .addbar {
@@ -44,8 +43,6 @@ h1 {
 
 .container {
   width: 25vw;
-  // height: 90vh;
-  border: 1px solid rgba(195, 195, 195, 0.5);
 }
 
 h3 {
@@ -73,9 +70,6 @@ li {
   margin: 7px;
   cursor: grab;
   background-color: white;
-}
-
-li:hover {
 }
 
 #box {

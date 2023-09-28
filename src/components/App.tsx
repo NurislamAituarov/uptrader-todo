@@ -1,25 +1,54 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../hooks/redux';
 import { Context } from '../lib/context';
-import './App.css';
+import './App.scss';
 import { Table } from './table/Table';
-import { Form } from './create-task/Form';
+import { FormCreate } from './form/FormCreate';
 
 function App() {
-  const [popup, setPopup] = useState('');
   const notice = useAppSelector((state) => state.state.notice);
+  const [popup, setPopup] = useState('');
+  const [noticeActive, setNoticeActive] = useState(false);
+
+  useEffect(() => {
+    if (popup) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'visible';
+    }
+  }, [popup]);
+
+  useEffect(() => {
+    setNoticeActive(true);
+    setTimeout(() => {
+      setNoticeActive(false);
+    }, 2000);
+  }, [notice]);
+
+  function openPopup() {
+    setPopup('create');
+  }
 
   return (
     <Context.Provider value={{ popup, setPopup }}>
       <div className="wrapper">
-        <div className="header">Name project</div>
-        <div onClick={() => setPopup('create')}>Add Task</div>
-        {notice && <p id="notice">{notice}</p>}
+        <div className="project__control">
+          <h1>Name project</h1>
+          <button className="btn" onClick={openPopup}>
+            Add Task
+          </button>
+        </div>
+
+        {notice && noticeActive && (
+          <p id="notice" className="notice">
+            {notice}
+          </p>
+        )}
         <main className="main">
           <Table />
         </main>
 
-        {popup === 'create' && <Form />}
+        {popup === 'create' && <FormCreate />}
       </div>
     </Context.Provider>
   );
