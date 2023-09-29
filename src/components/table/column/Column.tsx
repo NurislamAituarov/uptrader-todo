@@ -1,6 +1,6 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import Item from '../item/Item';
-import { IItemTask } from '../../../types';
+import { IItemTask } from '@/types';
 
 interface IProps {
   group: string;

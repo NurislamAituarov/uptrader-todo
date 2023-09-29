@@ -2,7 +2,7 @@ import { DragEvent, memo, useEffect, useMemo, useRef, useState } from 'react';
 import './Item.scss';
 import { useAppDispatch } from '../../../hooks/redux';
 import { changeTaskTimeWork, changeTaskDateEnd } from '../../../store/actions';
-import { IItemTask } from '../../../types';
+import { IItemTask } from '@/types';
 
 interface IProps {
   item: IItemTask;
