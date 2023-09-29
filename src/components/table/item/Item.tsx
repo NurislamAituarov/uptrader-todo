@@ -2,7 +2,7 @@ import { DragEvent, memo, useEffect, useMemo, useRef, useState } from 'react';
 import './Item.scss';
 import { useAppDispatch } from '../../../hooks/redux';
 import { changeTaskTimeWork, changeTaskDateEnd } from '../../../store/actions';
-import { IItemTask } from '../../../types';
+import { IItemTask } from '@/types';
 
 interface IProps {
   item: IItemTask;
@@ -82,7 +82,11 @@ export default memo(({ item, deleteItem }: IProps) => {
         <p className="date-create">
           Дата создания: <span>{item.dateCreate}</span>
         </p>
-        <p className="time-work">
+        <p
+          className={[
+            'time-work',
+            item.group === 'Development' ? 'time-work__active' : 'time-work__disabled',
+          ].join(' ')}>
           Время в работе: <span>{timeWorkDate}</span>
         </p>
         <p className="date-end">
@@ -96,6 +100,7 @@ export default memo(({ item, deleteItem }: IProps) => {
         </p>
       </div>
 
+      <p className="task__number">№: {item.number}</p>
       <p className={classNames}> {item.priority}</p>
 
       <button onClick={() => deleteItem(item.id)} className="btn">

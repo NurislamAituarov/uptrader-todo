@@ -2,9 +2,9 @@ import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addNotice, addTask } from '../../store/actions';
 import { Context } from '../../lib/context';
+import { CloseBtn } from '../close-btn/CloseBtn';
 
 import './Form.scss';
-import { CloseBtn } from '../close-btn/CloseBtn';
 
 export function FormCreate() {
   const tasks = useAppSelector((state) => state.state.items);
