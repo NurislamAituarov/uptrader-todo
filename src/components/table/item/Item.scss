@@ -28,7 +28,7 @@
   }
 
   &-priority {
-    top: 5px;
+    top: 35px;
     right: 5px;
     position: absolute;
     width: max-content;
@@ -64,6 +64,19 @@
   .btn {
     background-color: rgb(46, 46, 46);
     height: 40px;
+  }
+
+  .time-work__active span {
+    color: green;
+  }
+  .time-work__disabled span {
+    color: red;
+  }
+
+  .task__number {
+    position: absolute;
+    top: 5px;
+    right: 10px;
   }
 }
 

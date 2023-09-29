@@ -2,12 +2,15 @@ import { Column } from './column/Column';
 import './Table.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
+import { useEffect } from 'react';
 
 export function Table() {
   const items = useAppSelector((state) => state.state.items);
   const dispatch = useAppDispatch();
 
   const groups = ['Queue', 'Development', 'Done'];
+
+  useEffect(() => {}, [items]);
 
   const moveGroup = (itemId: number, groupToMove: string) => {
     const index = items.findIndex((item) => item.id === itemId);
