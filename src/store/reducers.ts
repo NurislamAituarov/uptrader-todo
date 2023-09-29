@@ -44,7 +44,14 @@ export default function Reducer(state = initial, action: any): IReducerState {
       return { ...state, items: [...state.items, action.payload] };
 
     case 'REMOVE_TASK':
-      return { ...state, items: state.items.filter((item) => item.id !== action.payload) };
+      const filteredItems = state.items.filter((item) => item.id !== action.payload);
+
+      return {
+        ...state,
+        items: filteredItems.map((item, ind) => {
+          return { ...item, number: ind + 1 };
+        }),
+      };
 
     case 'MOVE_TASK':
       return { ...state, items: action.payload };
