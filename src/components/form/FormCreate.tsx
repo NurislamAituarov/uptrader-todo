@@ -63,7 +63,7 @@ export function FormCreate() {
   }
 
   function closeForm() {
-    popup?.setPopup('');
+    popup?.closePopup();
   }
 
   return (

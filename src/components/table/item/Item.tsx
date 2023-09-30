@@ -1,8 +1,18 @@
-import { DragEvent, memo, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  DragEvent,
+  MouseEvent,
+  memo,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import './Item.scss';
 import { useAppDispatch } from '../../../hooks/redux';
-import { changeTaskTimeWork, changeTaskDateEnd } from '../../../store/actions';
+import { changeTaskTimeWork, changeTaskDateEnd, addTaskChange } from '../../../store/actions';
 import { IItemTask } from '@/types';
+import { Context } from '../../../lib/context';
 
 interface IProps {
   item: IItemTask;
@@ -15,6 +25,7 @@ export default memo(({ item, deleteItem }: IProps) => {
   const refTimeWorkItem = useRef(item.timeWork);
   const idInterval = useRef<NodeJS.Timer | null>(null);
   const dispatch = useAppDispatch();
+  const context = useContext(Context);
 
   useEffect(() => {
     if (item.group === 'Development') {
@@ -57,8 +68,10 @@ export default memo(({ item, deleteItem }: IProps) => {
 
   const classNames = ['task__item-priority', `task__item-${item.priority}`].join(' ');
 
-  function expandText() {
-    setExpand((value) => !value);
+  function expandText(e: MouseEvent<HTMLParagraphElement>) {
+    const el = e.target as HTMLParagraphElement;
+    const length = el.textContent?.length;
+    if (length && length > 60) setExpand((value) => !value);
   }
 
   const timeWorkDate = useMemo(() => {
@@ -71,12 +84,21 @@ export default memo(({ item, deleteItem }: IProps) => {
     return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
   }, [timeWork]);
 
+  function openTask(e: MouseEvent) {
+    e.stopPropagation();
+    setTimeout(() => {
+      context?.openPopupChange();
+      dispatch(addTaskChange(item));
+    }, 0);
+  }
+
   return (
     <li
       key={item.id}
       id={item.id + ''}
       draggable
       onDragStart={handleDragStart}
+      onClick={openTask}
       className={['task__item', expand ? 'expand' : ''].join(' ')}>
       <div className="task__date">
         <p className="date-create">
@@ -103,7 +125,12 @@ export default memo(({ item, deleteItem }: IProps) => {
       <p className="task__number">№: {item.number}</p>
       <p className={classNames}> {item.priority}</p>
 
-      <button onClick={() => deleteItem(item.id)} className="btn">
+      <button
+        onClick={(e: MouseEvent) => {
+          e.stopPropagation();
+          deleteItem(item.id);
+        }}
+        className="btn">
         remove
       </button>
     </li>

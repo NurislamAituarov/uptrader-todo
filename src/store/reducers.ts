@@ -32,6 +32,20 @@ const initial: IReducerState = {
       comments: [],
     },
   ],
+  taskItem: {
+    number: 2,
+    title: 'item2',
+    description: '',
+    dateCreate: '',
+    timeWork: 0,
+    dateEnd: '',
+    priority: 'high',
+    attachedFiles: null,
+    group: 'Queue',
+    id: 2,
+    subtasks: [],
+    comments: [],
+  },
   notice: '',
 };
 
@@ -43,11 +57,22 @@ export default function Reducer(state = initial, action: any): IReducerState {
     case 'ADD_TASK':
       return { ...state, items: [...state.items, action.payload] };
 
+    case 'ADD_TASK_CHANGE':
+      return { ...state, taskItem: action.payload };
+
     case 'REMOVE_TASK':
-      return { ...state, items: state.items.filter((item) => item.id !== action.payload) };
+      const filteredItems = state.items.filter((item) => item.id !== action.payload);
+
+      return {
+        ...state,
+        items: filteredItems.map((item, ind) => {
+          return { ...item, number: ind + 1 };
+        }),
+      };
 
     case 'MOVE_TASK':
       return { ...state, items: action.payload };
+
     case 'CHANGE_TASK_TIME_WORK':
       return {
         ...state,

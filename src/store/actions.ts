@@ -10,6 +10,9 @@ interface IChangeTaskDateEnd {
 
 export const addNotice = (value: string) => ({ type: 'ADD_NOTICE', payload: value });
 export const addTask = (task: IItemTask) => ({ type: 'ADD_TASK', payload: task });
+
+export const addTaskChange = (task: IItemTask) => ({ type: 'ADD_TASK_CHANGE', payload: task });
+
 export const removeTask = (taskId: number) => ({ type: 'REMOVE_TASK', payload: taskId });
 export const newMovedTaskItems = (items: Array<IItemTask>) => ({
   type: 'MOVE_TASK',
