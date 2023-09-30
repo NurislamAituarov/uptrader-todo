@@ -1,0 +1,27 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 500px;
+  height: 100%;
+  background-color: #233343;
+  z-index: 100;
+  padding: 10px;
+  .title {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: inherit;
+    color: white;
+    font-size: 32px;
+    border: 1px solid #233343;
+
+    &:hover {
+      border: 1px solid #5f6a74;
+      transition: border-color 500ms;
+    }
+    &:focus {
+      border: 1px solid;
+    }
+  }
+}

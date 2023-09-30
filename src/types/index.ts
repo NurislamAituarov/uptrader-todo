@@ -15,6 +15,7 @@ export interface IItemTask {
 
 export interface IReducerState {
   items: Array<IItemTask>;
+  taskItem: IItemTask;
   notice: string;
 }
 
