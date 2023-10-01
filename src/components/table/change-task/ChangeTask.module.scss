@@ -7,7 +7,26 @@
   background-color: #233343;
   z-index: 100;
   padding: 10px;
-  .title {
+  animation: change-sidebar 0.5s ease-in-out;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+
+  .wrapper-input {
+    position: relative;
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #6d6e6f;
+    }
+  }
+
+  .title,
+  .description-text {
     width: 100%;
     padding: 10px 20px;
     border-radius: 4px;
@@ -23,5 +42,65 @@
     &:focus {
       border: 1px solid;
     }
+  }
+
+  .description-text {
+    min-height: 120px;
+    font-size: 16px;
+  }
+  .priority-active {
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .dropdown-priority {
+    position: absolute;
+    width: 70%;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    color: black;
+    padding: 10px 0;
+    z-index: 10;
+    border-radius: 4px;
+    .priority-list {
+      padding: 5px 10px;
+      cursor: pointer;
+      border-bottom: 1px solid white;
+      transition: all 0.5s;
+      &:hover {
+        border-bottom: 1px solid rgb(176, 176, 176);
+      }
+    }
+  }
+
+  .wrapper-subtask {
+  }
+  .subtask-add {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border: 1px solid #5f6a74;
+    padding: 10px;
+    border-radius: 4px;
+    transition: all 0.4s;
+    &:hover {
+      border: 1px solid #464f58;
+      background-color: #273442;
+    }
+  }
+  .subtask-item {
+    background-color: grey;
+    padding: 10px;
+  }
+}
+
+@keyframes change-sidebar {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
   }
 }
