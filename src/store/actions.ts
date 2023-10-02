@@ -1,4 +1,4 @@
-import { IItemTask } from '../types';
+import { IFormTaskChange, IItemTask, ISubtask } from '../types';
 interface IChangeTask {
   taskId: number;
   timeWork: number;
@@ -8,10 +8,25 @@ interface IChangeTaskDateEnd {
   status?: string;
 }
 
+interface IAddSubtask {
+  idTask: number;
+  subtask: ISubtask[];
+}
+
+interface IUpdateTask {
+  idTask: number;
+  task: IFormTaskChange;
+}
+
 export const addNotice = (value: string) => ({ type: 'ADD_NOTICE', payload: value });
 export const addTask = (task: IItemTask) => ({ type: 'ADD_TASK', payload: task });
 
 export const addTaskChange = (task: IItemTask) => ({ type: 'ADD_TASK_CHANGE', payload: task });
+
+export const updateTaskChange = ({ idTask, task }: IUpdateTask) => ({
+  type: 'UPDATE_TASK',
+  payload: { idTask, task },
+});
 
 export const removeTask = (taskId: number) => ({ type: 'REMOVE_TASK', payload: taskId });
 export const newMovedTaskItems = (items: Array<IItemTask>) => ({
@@ -26,4 +41,9 @@ export const changeTaskTimeWork = ({ taskId, timeWork }: IChangeTask) => ({
 export const changeTaskDateEnd = ({ taskId, status }: IChangeTaskDateEnd) => ({
   type: 'CHANGE_TASK_DATE_END',
   payload: { taskId, status },
+});
+
+export const addSubtask = ({ idTask, subtask }: IAddSubtask) => ({
+  type: 'ADD_SUBTASK',
+  payload: { idTask, subtask },
 });

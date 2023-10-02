@@ -13,6 +13,15 @@ export interface IItemTask {
   comments?: Array<any>;
 }
 
+export interface IFormTaskChange {
+  id: number;
+  title: string;
+  description: string;
+  priority: string;
+  file: null;
+  subtasks: ISubtask[];
+}
+
 export interface IReducerState {
   items: Array<IItemTask>;
   taskItem: IItemTask;
@@ -39,3 +48,9 @@ interface IActionMoveTask {
 }
 
 export type TActions = IActionNotice | IActionTask | IActionRemove | IActionMoveTask;
+
+export interface ISubtask {
+  title: string;
+  id: string;
+  completed: boolean;
+}

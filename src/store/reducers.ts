@@ -60,6 +60,18 @@ export default function Reducer(state = initial, action: any): IReducerState {
     case 'ADD_TASK_CHANGE':
       return { ...state, taskItem: action.payload };
 
+    case 'ADD_SUBTASK':
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id === action.payload.idTask) {
+            return { ...item, subtasks: action.payload };
+          }
+
+          return item;
+        }),
+      };
+
     case 'REMOVE_TASK':
       const filteredItems = state.items.filter((item) => item.id !== action.payload);
 
@@ -67,6 +79,18 @@ export default function Reducer(state = initial, action: any): IReducerState {
         ...state,
         items: filteredItems.map((item, ind) => {
           return { ...item, number: ind + 1 };
+        }),
+      };
+
+    case 'UPDATE_TASK':
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id === action.payload.idTask) {
+            return { ...item, ...action.payload.task };
+          }
+
+          return item;
         }),
       };
 
