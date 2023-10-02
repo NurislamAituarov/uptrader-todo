@@ -1,12 +1,15 @@
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 import style from './ChangeTask.module.scss';
 import { useAppSelector } from '../../../hooks/redux';
+import { Checkbox } from '../../../components/svg/Checkbox';
 
 interface IProps {}
 
 interface ISubtask {
   title: string;
   id: string;
+  completed: boolean;
 }
 interface IForm {
   id: number;
@@ -28,6 +31,7 @@ export function ChangeTask() {
     file: null,
     subtasks: [],
   });
+  const [activeSubtask, setActiveSubtask] = useState('');
 
   const refWrapper = useRef<HTMLDivElement | null>(null);
 
@@ -94,8 +98,24 @@ export function ChangeTask() {
       data.subtasks.push({
         title: '',
         id: new Date().getTime() + '',
+        completed: false,
       });
       return { ...data };
+    });
+  }
+
+  function completedTask(id: string) {
+    setForm((data) => {
+      return {
+        ...data,
+        subtasks: data.subtasks.map((task) => {
+          if (task.id === id) {
+            return { ...task, completed: !task.completed };
+          }
+
+          return task;
+        }),
+      };
     });
   }
 
@@ -144,13 +164,25 @@ export function ChangeTask() {
         </div>
 
         <div className={style['wrapper-subtask']}>
-          <div onClick={addNewSubTask} className={style['subtask-add']}>
-            +<p>Добавить подзадачу</p>
-          </div>
-
+          <p className={style.label}>Подзадачи</p>
           {form.subtasks.map((task) => {
             return (
-              <div key={task.id} className={style['subtask-item']}>
+              <div
+                onClick={() => setActiveSubtask(task.id)}
+                tabIndex={0}
+                key={task.id}
+                className={cn(style['subtask-item'], {
+                  [style['subtask-item__active']]: activeSubtask === task.id,
+                })}>
+                <div
+                  onClick={() => {
+                    completedTask(task.id);
+                  }}
+                  className={cn(style['subtask-checkbox'], {
+                    [style['subtask-checkbox__active']]: task.completed,
+                  })}>
+                  <Checkbox />
+                </div>
                 <input
                   type="text"
                   name="title"
@@ -160,6 +192,9 @@ export function ChangeTask() {
               </div>
             );
           })}
+          <div onClick={addNewSubTask} className={style['subtask-add']}>
+            +<p>Добавить подзадачу</p>
+          </div>
         </div>
       </form>
     </div>
