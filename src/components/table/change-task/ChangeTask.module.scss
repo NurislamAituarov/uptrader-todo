@@ -45,8 +45,11 @@ form {
   }
 
   .description-text {
+    max-width: 100%;
+    min-width: 100%;
     min-height: 120px;
     font-size: 16px;
+    max-height: 180px;
   }
   .priority-active {
     color: white;

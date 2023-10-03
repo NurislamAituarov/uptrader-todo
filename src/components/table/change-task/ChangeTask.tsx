@@ -31,31 +31,32 @@ export function ChangeTask() {
       }
 
       setForm((data) => {
-        return { ...data, subtasks: data.subtasks.filter((subtask) => subtask.title) };
+        return { ...data, subtasks: data.subtasks?.filter((subtask) => subtask.title) };
       });
     });
   }, []);
 
   useEffect(() => {
     item &&
-      setForm((state) => {
+      setForm((state: any) => {
         return {
           ...state,
           id: item.id,
           title: item.title,
           description: item.description,
           priority: item.priority ? item.priority : '',
+          subtasks: item.subtasks || [],
         };
       });
   }, [item]);
 
   useEffect(() => {
-    dispatch(addSubtask({ idTask: item.id, subtask: form.subtasks }));
+    dispatch(addSubtask({ idTask: item.id, subtasks: form.subtasks }));
   }, [form.subtasks, dispatch, item.id]);
 
   useEffect(() => {
     form.id && dispatch(updateTaskChange({ idTask: item.id, task: form }));
-  }, [form.title]);
+  }, [form.title, form.description, form.priority]);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
@@ -93,7 +94,7 @@ export function ChangeTask() {
     setDropdownPriority((value) => !value);
   }
 
-  function addNewSubTask(e: MouseEvent<HTMLDivElement>) {
+  function addNewSubtask(e: MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
     setForm((data) => {
       data.subtasks.push({
@@ -166,37 +167,39 @@ export function ChangeTask() {
 
         <div className={style['wrapper-subtask']}>
           <p className={style.label}>Подзадачи</p>
-          {form.subtasks.map((task) => {
-            return (
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveSubtask(task.id);
-                }}
-                tabIndex={0}
-                key={task.id}
-                className={cn(style['subtask-item'], {
-                  [style['subtask-item__active']]: activeSubtask === task.id,
-                })}>
+          {form.subtasks &&
+            form.subtasks.map((task) => {
+              return (
                 <div
-                  onClick={() => {
-                    completedTask(task.id);
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveSubtask(task.id);
                   }}
-                  className={cn(style['subtask-checkbox'], {
-                    [style['subtask-checkbox__active']]: task.completed,
+                  tabIndex={0}
+                  key={task.id}
+                  className={cn(style['subtask-item'], {
+                    [style['subtask-item__active']]: activeSubtask === task.id,
                   })}>
-                  <Checkbox />
+                  <div
+                    onClick={() => {
+                      completedTask(task.id);
+                    }}
+                    className={cn(style['subtask-checkbox'], {
+                      [style['subtask-checkbox__active']]: task.completed,
+                    })}>
+                    <Checkbox />
+                  </div>
+                  <input
+                    type="text"
+                    name="title"
+                    id={task.id}
+                    value={task.title}
+                    onChange={(e) => handleInputSubtaskChange(e)}
+                  />
                 </div>
-                <input
-                  type="text"
-                  name="title"
-                  id={task.id}
-                  onChange={(e) => handleInputSubtaskChange(e)}
-                />
-              </div>
-            );
-          })}
-          <div onClick={addNewSubTask} className={style['subtask-add']}>
+              );
+            })}
+          <div onClick={addNewSubtask} className={style['subtask-add']}>
             +<p>Добавить подзадачу</p>
           </div>
         </div>
