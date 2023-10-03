@@ -2,9 +2,10 @@ import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { Checkbox } from '../../../components/svg/Checkbox';
+import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
 import { IFormTaskChange, ISubtask } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
+import { DeleteIcon } from '../../../components/svg/DeleteIcon';
 
 interface IProps {}
 
@@ -23,6 +24,7 @@ export function ChangeTask() {
   const refWrapper = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
 
+  // закрыть сплывающий sidebar, и удалять если в подзадачи ничего не добавили
   useEffect(() => {
     document.body.addEventListener('click', (e: any) => {
       const target = e.target as HTMLElement;
@@ -36,6 +38,7 @@ export function ChangeTask() {
     });
   }, []);
 
+  // добавить в форму при первой инициализации данные с хранилище
   useEffect(() => {
     item &&
       setForm((state: any) => {
@@ -50,10 +53,12 @@ export function ChangeTask() {
       });
   }, [item]);
 
+  // добавить подзадачи в хранилище
   useEffect(() => {
     dispatch(addSubtask({ idTask: item.id, subtasks: form.subtasks }));
   }, [form.subtasks, dispatch, item.id]);
 
+  // добавить данные формы в хранилище
   useEffect(() => {
     form.id && dispatch(updateTaskChange({ idTask: item.id, task: form }));
   }, [form.title, form.description, form.priority]);
@@ -118,6 +123,12 @@ export function ChangeTask() {
           return task;
         }),
       };
+    });
+  }
+
+  function deleteSubtaskItem(id: string) {
+    setForm((data) => {
+      return { ...data, subtasks: data.subtasks.filter((subtask) => subtask.id !== id) };
     });
   }
 
@@ -187,7 +198,7 @@ export function ChangeTask() {
                     className={cn(style['subtask-checkbox'], {
                       [style['subtask-checkbox__active']]: task.completed,
                     })}>
-                    <Checkbox />
+                    <CheckboxIcon />
                   </div>
                   <input
                     type="text"
@@ -196,6 +207,11 @@ export function ChangeTask() {
                     value={task.title}
                     onChange={(e) => handleInputSubtaskChange(e)}
                   />
+                  <div
+                    onClick={() => deleteSubtaskItem(task.id)}
+                    className={style['subtask-delete']}>
+                    <DeleteIcon />
+                  </div>
                 </div>
               );
             })}

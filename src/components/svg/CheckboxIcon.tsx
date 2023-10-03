@@ -1,4 +1,4 @@
-export function Checkbox() {
+export function CheckboxIcon() {
   return (
     <svg
       fill="#000000"
