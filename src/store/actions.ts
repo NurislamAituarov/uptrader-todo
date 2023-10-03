@@ -10,7 +10,7 @@ interface IChangeTaskDateEnd {
 
 interface IAddSubtask {
   idTask: number;
-  subtask: ISubtask[];
+  subtasks: ISubtask[];
 }
 
 interface IUpdateTask {
@@ -21,7 +21,7 @@ interface IUpdateTask {
 export const addNotice = (value: string) => ({ type: 'ADD_NOTICE', payload: value });
 export const addTask = (task: IItemTask) => ({ type: 'ADD_TASK', payload: task });
 
-export const addTaskChange = (task: IItemTask) => ({ type: 'ADD_TASK_CHANGE', payload: task });
+export const addTaskChange = (taskId: number) => ({ type: 'ADD_TASK_CHANGE', payload: taskId });
 
 export const updateTaskChange = ({ idTask, task }: IUpdateTask) => ({
   type: 'UPDATE_TASK',
@@ -43,7 +43,7 @@ export const changeTaskDateEnd = ({ taskId, status }: IChangeTaskDateEnd) => ({
   payload: { taskId, status },
 });
 
-export const addSubtask = ({ idTask, subtask }: IAddSubtask) => ({
+export const addSubtask = ({ idTask, subtasks }: IAddSubtask) => ({
   type: 'ADD_SUBTASK',
-  payload: { idTask, subtask },
+  payload: { idTask, subtasks },
 });

@@ -3,12 +3,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 5px;
   padding: 10px;
   transition: all 0.5s;
-
   list-style: none;
   width: 90%;
-  height: 180px;
+  height: auto;
   text-align: center;
   border-radius: 5px;
   color: black;
@@ -59,6 +59,13 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
         'Courier New', monospace;
     }
+  }
+  .task__subtasks {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    font-size: 14px;
   }
 
   .btn {

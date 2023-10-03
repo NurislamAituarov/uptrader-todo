@@ -58,14 +58,17 @@ export default function Reducer(state = initial, action: any): IReducerState {
       return { ...state, items: [...state.items, action.payload] };
 
     case 'ADD_TASK_CHANGE':
-      return { ...state, taskItem: action.payload };
+      return {
+        ...state,
+        taskItem: state.items.filter((item) => item.id === action.payload)[0],
+      };
 
     case 'ADD_SUBTASK':
       return {
         ...state,
         items: state.items.map((item) => {
           if (item.id === action.payload.idTask) {
-            return { ...item, subtasks: action.payload };
+            return { ...item, subtasks: action.payload.subtasks };
           }
 
           return item;

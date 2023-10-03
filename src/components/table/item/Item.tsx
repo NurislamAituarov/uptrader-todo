@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../hooks/redux';
 import { changeTaskTimeWork, changeTaskDateEnd, addTaskChange } from '../../../store/actions';
 import { IItemTask } from '@/types';
 import { Context } from '../../../lib/context';
+import { Subtask } from '../../../components/svg/Subtask';
 
 interface IProps {
   item: IItemTask;
@@ -69,6 +70,7 @@ export default memo(({ item, deleteItem }: IProps) => {
   const classNames = ['task__item-priority', `task__item-${item.priority}`].join(' ');
 
   function expandText(e: MouseEvent<HTMLParagraphElement>) {
+    e.stopPropagation();
     const el = e.target as HTMLParagraphElement;
     const length = el.textContent?.length;
     if (length && length > 60) setExpand((value) => !value);
@@ -88,7 +90,7 @@ export default memo(({ item, deleteItem }: IProps) => {
     e.stopPropagation();
     setTimeout(() => {
       context?.openPopupChange();
-      dispatch(addTaskChange(item));
+      dispatch(addTaskChange(item.id));
     }, 0);
   }
 
@@ -115,6 +117,13 @@ export default memo(({ item, deleteItem }: IProps) => {
           Дата окончания: <span>{item.dateEnd}</span>
         </p>
       </div>
+      {!!item.subtasks?.length && (
+        <div className="task__subtasks">
+          <span>{item.subtasks?.length}</span>
+          <Subtask />
+        </div>
+      )}
+
       <div className="title__wrapper">
         <p className="title"> {item.title}</p>
         <p className="description" onClick={expandText}>
