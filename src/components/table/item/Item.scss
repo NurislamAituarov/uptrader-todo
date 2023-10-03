@@ -8,24 +8,13 @@
   transition: all 0.5s;
   list-style: none;
   width: 90%;
-  height: auto;
+  height: 200px;
   text-align: center;
   border-radius: 5px;
   color: black;
   margin: 7px;
   cursor: grab;
   background-color: white;
-
-  .description {
-    white-space: nowrap;
-    overflow: hidden;
-    font-size: 12px;
-    text-overflow: ellipsis;
-    margin-bottom: 10px;
-    &:hover {
-      cursor: pointer;
-    }
-  }
 
   &-priority {
     top: 35px;
@@ -61,6 +50,9 @@
     }
   }
   .task__subtasks {
+    position: absolute;
+    right: 20px;
+    top: 70px;
     display: flex;
     align-items: center;
     justify-content: flex-end;

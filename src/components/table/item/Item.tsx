@@ -8,12 +8,16 @@ import {
   useRef,
   useState,
 } from 'react';
-import './Item.scss';
+
+import cn from 'classnames';
+
 import { useAppDispatch } from '../../../hooks/redux';
 import { changeTaskTimeWork, changeTaskDateEnd, addTaskChange } from '../../../store/actions';
 import { IItemTask } from '@/types';
 import { Context } from '../../../lib/context';
-import { Subtask } from '../../../components/svg/Subtask';
+import { SubtaskIcon } from '../../../components/svg/SubtaskIcon';
+import { DescriptionTruncate } from '../../../components/description/Description';
+import './Item.scss';
 
 interface IProps {
   item: IItemTask;
@@ -21,7 +25,6 @@ interface IProps {
 }
 
 export default memo(({ item, deleteItem }: IProps) => {
-  const [expand, setExpand] = useState(false);
   const [timeWork, setTimeWork] = useState(0);
   const refTimeWorkItem = useRef(item.timeWork);
   const idInterval = useRef<NodeJS.Timer | null>(null);
@@ -69,13 +72,6 @@ export default memo(({ item, deleteItem }: IProps) => {
 
   const classNames = ['task__item-priority', `task__item-${item.priority}`].join(' ');
 
-  function expandText(e: MouseEvent<HTMLParagraphElement>) {
-    e.stopPropagation();
-    const el = e.target as HTMLParagraphElement;
-    const length = el.textContent?.length;
-    if (length && length > 60) setExpand((value) => !value);
-  }
-
   const timeWorkDate = useMemo(() => {
     const timeWorkItem = refTimeWorkItem.current ?? 0;
 
@@ -94,6 +90,10 @@ export default memo(({ item, deleteItem }: IProps) => {
     }, 0);
   }
 
+  const subtaskNotCompleted = useMemo(() => {
+    return item.subtasks && item.subtasks.filter((subtask) => !subtask.completed);
+  }, [item.subtasks]);
+
   return (
     <li
       key={item.id}
@@ -101,7 +101,7 @@ export default memo(({ item, deleteItem }: IProps) => {
       draggable
       onDragStart={handleDragStart}
       onClick={openTask}
-      className={['task__item', expand ? 'expand' : ''].join(' ')}>
+      className={['task__item'].join(' ')}>
       <div className="task__date">
         <p className="date-create">
           Дата создания: <span>{item.dateCreate}</span>
@@ -117,18 +117,16 @@ export default memo(({ item, deleteItem }: IProps) => {
           Дата окончания: <span>{item.dateEnd}</span>
         </p>
       </div>
-      {!!item.subtasks?.length && (
-        <div className="task__subtasks">
-          <span>{item.subtasks?.length}</span>
-          <Subtask />
+      {!!subtaskNotCompleted?.length && (
+        <div className={cn('task__subtasks', {})}>
+          <span>{subtaskNotCompleted?.length}</span>
+          <SubtaskIcon />
         </div>
       )}
 
       <div className="title__wrapper">
         <p className="title"> {item.title}</p>
-        <p className="description" onClick={expandText}>
-          {item.description}
-        </p>
+        {item.description && <DescriptionTruncate item={item} />}
       </div>
 
       <p className="task__number">№: {item.number}</p>

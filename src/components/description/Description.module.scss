@@ -1,0 +1,47 @@
+.description__wrapper {
+  position: relative;
+}
+
+.description {
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  margin-bottom: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.description-tooltip {
+  position: absolute;
+  bottom: 150%;
+  width: 100%;
+  padding: 10px;
+  background-color: #393939;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  z-index: 10;
+  animation: tooltip 0.5s ease-in-out;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    width: 35px;
+    height: 50px;
+    right: 50px;
+    background-color: inherit;
+    border-radius: 0 0 90% 0;
+    z-index: -1;
+  }
+}
+
+@keyframes tooltip {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
