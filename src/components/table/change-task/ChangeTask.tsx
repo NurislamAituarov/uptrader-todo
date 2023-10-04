@@ -6,6 +6,7 @@ import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
 import { IFormTaskChange, ISubtask } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
 import { DeleteIcon } from '../../../components/svg/DeleteIcon';
+import { FileDocIcon } from '../../../components/svg/FileDocIcon';
 
 interface IProps {}
 
@@ -19,6 +20,7 @@ export function ChangeTask() {
     priority: '',
     file: null,
     subtasks: [],
+    comments: '',
   });
   const [activeSubtask, setActiveSubtask] = useState('');
   const refWrapper = useRef<HTMLDivElement | null>(null);
@@ -45,7 +47,7 @@ export function ChangeTask() {
       const reader = new FileReader();
       reader.onload = (event: any) => {
         setForm((data) => {
-          return { ...data, srcImg: event.target.result };
+          return { ...data, srcDownload: event.target.result };
         });
       };
       reader.readAsDataURL(file);
@@ -60,6 +62,7 @@ export function ChangeTask() {
           priority: item.priority ? item.priority : '',
           subtasks: item.subtasks || [],
           file: item.file,
+          comments: item.comments ?? '',
         };
       });
   }, [item]);
@@ -72,7 +75,7 @@ export function ChangeTask() {
   // добавить данные формы в хранилище
   useEffect(() => {
     form.id && dispatch(updateTaskChange({ idTask: item.id, task: form }));
-  }, [form.title, form.description, form.priority]);
+  }, [form.title, form.description, form.priority, form.comments]);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
@@ -232,9 +235,34 @@ export function ChangeTask() {
         </div>
 
         <div className={style['subtask-files']}>
-          <div className={style.comment}></div>
-          <div className={style['img-wrapper']}>
-            <img src={form.srcImg} alt="img" />
+          <div className={style.comment}>
+            <textarea
+              name="comments"
+              id="comment"
+              value={form.comments}
+              onChange={handleInputChange}></textarea>
+          </div>
+
+          {(form.file?.type === 'image/jpeg' || form.file?.type === 'application/pdf') && (
+            <p>{form.file?.name}</p>
+          )}
+
+          <div className={style['downloaded-wrapper']}>
+            {form.file?.type === 'image/jpeg' && <img src={form.srcDownload} alt="img" />}
+            {form.file?.type === 'application/pdf' && (
+              <embed src={form.srcDownload} type="application/pdf" />
+            )}
+            {form.file?.type &&
+              form.file?.type !== 'image/jpeg' &&
+              form.file?.type !== 'application/pdf' && (
+                <div className={style.document}>
+                  <FileDocIcon />
+                  <div>
+                    <p>{form.file?.name}</p>
+                    <span>Текстовый файл</span>
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </form>
