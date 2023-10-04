@@ -16,7 +16,7 @@ const initial: IReducerState = {
       id: 1,
       file: null,
       subtasks: [],
-      comments: [],
+      comments: '',
     },
     {
       number: 2,
@@ -31,7 +31,7 @@ const initial: IReducerState = {
       id: 2,
       file: null,
       subtasks: [],
-      comments: [],
+      comments: '',
     },
   ],
   taskItem: {
@@ -47,7 +47,7 @@ const initial: IReducerState = {
     id: 2,
     file: null,
     subtasks: [],
-    comments: [],
+    comments: '',
   },
   notice: '',
 };

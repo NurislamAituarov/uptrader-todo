@@ -17,9 +17,18 @@ export interface IItemTask {
   id: number;
   file?: IFile | null;
   subtasks?: Array<any>;
-  comments?: Array<any>;
+  comments?: '';
+}
+export interface ISubtask {
+  title: string;
+  id: string;
+  completed: boolean;
 }
 
+export interface IComment {
+  value: string;
+  id: string;
+}
 export interface IFormTaskChange {
   id: number;
   title: string;
@@ -27,7 +36,8 @@ export interface IFormTaskChange {
   priority: string;
   file?: IFile | null;
   subtasks: ISubtask[];
-  srcImg?: string;
+  comments?: '';
+  srcDownload?: string;
 }
 
 export interface IReducerState {
@@ -56,9 +66,3 @@ interface IActionMoveTask {
 }
 
 export type TActions = IActionNotice | IActionTask | IActionRemove | IActionMoveTask;
-
-export interface ISubtask {
-  title: string;
-  id: string;
-  completed: boolean;
-}
