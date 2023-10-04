@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
@@ -40,6 +40,16 @@ export function ChangeTask() {
 
   // добавить в форму при первой инициализации данные с хранилище
   useEffect(() => {
+    const file = item.file as any;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        setForm((data) => {
+          return { ...data, srcImg: event.target.result };
+        });
+      };
+      reader.readAsDataURL(file);
+    }
     item &&
       setForm((state: any) => {
         return {
@@ -49,6 +59,7 @@ export function ChangeTask() {
           description: item.description,
           priority: item.priority ? item.priority : '',
           subtasks: item.subtasks || [],
+          file: item.file,
         };
       });
   }, [item]);
@@ -217,6 +228,13 @@ export function ChangeTask() {
             })}
           <div onClick={addNewSubtask} className={style['subtask-add']}>
             +<p>Добавить подзадачу</p>
+          </div>
+        </div>
+
+        <div className={style['subtask-files']}>
+          <div className={style.comment}></div>
+          <div className={style['img-wrapper']}>
+            <img src={form.srcImg} alt="img" />
           </div>
         </div>
       </form>

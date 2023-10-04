@@ -1,3 +1,9 @@
+interface IFile {
+  name: string;
+  size: number;
+  type: string;
+}
+
 export interface IItemTask {
   number: number;
   title: string;
@@ -9,6 +15,7 @@ export interface IItemTask {
   attachedFiles?: any;
   group: string;
   id: number;
+  file?: IFile | null;
   subtasks?: Array<any>;
   comments?: Array<any>;
 }
@@ -18,8 +25,9 @@ export interface IFormTaskChange {
   title: string;
   description: string;
   priority: string;
-  file: null;
+  file?: IFile | null;
   subtasks: ISubtask[];
+  srcImg?: string;
 }
 
 export interface IReducerState {
