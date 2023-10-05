@@ -45,7 +45,7 @@ export function ChangeTask() {
       const reader = new FileReader();
       reader.onload = (event: any) => {
         setForm((data) => {
-          return { ...data, srcDownload: event.target.result };
+          return { ...data, base64Data: event.target.result };
         });
       };
       reader.readAsDataURL(file);

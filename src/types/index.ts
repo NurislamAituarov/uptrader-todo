@@ -37,7 +37,7 @@ export interface IFormTaskChange {
   file?: IFile | null;
   subtasks: ISubtask[];
   comments?: '';
-  srcDownload?: string;
+  base64Data?: string;
 }
 
 export interface IReducerState {
