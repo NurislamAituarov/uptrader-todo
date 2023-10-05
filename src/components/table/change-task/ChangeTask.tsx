@@ -1,14 +1,12 @@
-import { ChangeEvent, MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
-import { IFormTaskChange, ISubtask } from '@/types';
+import { IFormTaskChange } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
 import { DeleteIcon } from '../../../components/svg/DeleteIcon';
-import { FileDocIcon } from '../../../components/svg/FileDocIcon';
-
-interface IProps {}
+import { FileDownload } from './FileDownload';
 
 export function ChangeTask() {
   const item = useAppSelector((state) => state.state.taskItem);
@@ -234,7 +232,7 @@ export function ChangeTask() {
           </div>
         </div>
 
-        <div className={style['subtask-files']}>
+        <div className={style['wrapper-files']}>
           <div className={style.comment}>
             <textarea
               name="comments"
@@ -243,27 +241,7 @@ export function ChangeTask() {
               onChange={handleInputChange}></textarea>
           </div>
 
-          {(form.file?.type === 'image/jpeg' || form.file?.type === 'application/pdf') && (
-            <p>{form.file?.name}</p>
-          )}
-
-          <div className={style['downloaded-wrapper']}>
-            {form.file?.type === 'image/jpeg' && <img src={form.srcDownload} alt="img" />}
-            {form.file?.type === 'application/pdf' && (
-              <embed src={form.srcDownload} type="application/pdf" />
-            )}
-            {form.file?.type &&
-              form.file?.type !== 'image/jpeg' &&
-              form.file?.type !== 'application/pdf' && (
-                <div className={style.document}>
-                  <FileDocIcon />
-                  <div>
-                    <p>{form.file?.name}</p>
-                    <span>Текстовый файл</span>
-                  </div>
-                </div>
-              )}
-          </div>
+          <FileDownload form={form} />
         </div>
       </form>
     </div>
