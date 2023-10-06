@@ -11,7 +11,12 @@ export function Table() {
   const context = useContext(Context);
   const groups = ['Queue', 'Development', 'Done'];
 
-  useEffect(() => {}, [items]);
+  useEffect(() => {
+    const itemsLocal = localStorage.getItem('tasks');
+    if (itemsLocal) {
+      dispatch(newMovedTaskItems(JSON.parse(itemsLocal)));
+    }
+  }, []);
 
   const moveGroup = (itemId: number, groupToMove: string) => {
     const index = items.findIndex((item) => item.id === itemId);
@@ -20,6 +25,7 @@ export function Table() {
       itemToMove.group = groupToMove;
       const newItemsMoved = [...items.slice(0, index), itemToMove, ...items.slice(index + 1)];
       dispatch(newMovedTaskItems(newItemsMoved));
+      localStorage.setItem('tasks', JSON.stringify(newItemsMoved));
       dispatch(addNotice(`${itemToMove.title} is moved to ${itemToMove.group}!`));
     }
   };

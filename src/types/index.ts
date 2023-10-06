@@ -16,7 +16,7 @@ export interface IItemTask {
   group: string;
   id: number;
   file?: IFile | null;
-  subtasks?: Array<any>;
+  subtasks?: ISubtask[];
   comments?: '';
 }
 export interface ISubtask {
@@ -42,7 +42,7 @@ export interface IFormTaskChange {
 
 export interface IReducerState {
   items: Array<IItemTask>;
-  taskItem: IItemTask;
+  taskItem: IItemTask | null;
   notice: string;
 }
 

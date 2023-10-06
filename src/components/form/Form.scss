@@ -43,6 +43,11 @@
       padding: 10px;
       color: black;
       cursor: pointer;
+      text-align: center;
+      transition: all 0.3s;
+      &:hover {
+        background-color: #d4d4d4;
+      }
     }
 
     &-priority {
@@ -75,17 +80,18 @@
   }
 
   .btn__create {
-    background-color: greenyellow;
+    background-color: green;
     transition: all 0.3s;
     text-transform: uppercase;
     font-weight: bold;
+    color: white;
     &:hover {
-      background-color: green;
-      color: white;
+      background-color: rgb(0, 107, 0);
     }
 
     &:disabled {
       pointer-events: none;
+      background-color: grey;
     }
   }
 }

@@ -40,7 +40,7 @@ export function ChangeTask() {
 
   // добавить в форму при первой инициализации данные с хранилище
   useEffect(() => {
-    const file = item.file as any;
+    const file = item?.file as any;
     if (file) {
       const reader = new FileReader();
       reader.onload = (event: any) => {
@@ -67,12 +67,12 @@ export function ChangeTask() {
 
   // добавить подзадачи в хранилище
   useEffect(() => {
-    dispatch(addSubtask({ idTask: item.id, subtasks: form.subtasks }));
-  }, [form.subtasks, dispatch, item.id]);
+    dispatch(addSubtask({ idTask: form.id, subtasks: form.subtasks }));
+  }, [form.subtasks]);
 
   // добавить данные формы в хранилище
   useEffect(() => {
-    form.id && dispatch(updateTaskChange({ idTask: item.id, task: form }));
+    dispatch(updateTaskChange({ idTask: form.id, task: form }));
   }, [form.title, form.description, form.priority, form.comments]);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {

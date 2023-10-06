@@ -63,6 +63,9 @@
   .btn {
     background-color: rgb(46, 46, 46);
     height: 40px;
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
   .time-work__active span {

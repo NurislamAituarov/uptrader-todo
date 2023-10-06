@@ -21,7 +21,6 @@ export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }:
       moveGroup(item.id, group);
     }
   };
-
   const itemList = groupItems.map((item: any) => {
     return <Item item={item} key={item.id} deleteItem={deleteItem} />;
   });

@@ -85,13 +85,13 @@ export default memo(({ item, deleteItem }: IProps) => {
   function openTask(e: MouseEvent) {
     e.stopPropagation();
     setTimeout(() => {
-      context?.openPopupChange();
       dispatch(addTaskChange(item.id));
+      context?.openPopupChange();
     }, 0);
   }
 
   const subtaskNotCompleted = useMemo(() => {
-    return item.subtasks && item.subtasks.filter((subtask) => !subtask.completed);
+    return item.subtasks ? item.subtasks.filter((subtask) => !subtask.completed) : [];
   }, [item.subtasks]);
 
   return (
