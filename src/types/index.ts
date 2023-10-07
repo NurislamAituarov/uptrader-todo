@@ -1,7 +1,8 @@
-interface IFile {
+export interface IFile {
   name: string;
   size: number;
   type: string;
+  base64Data?: string;
 }
 
 export interface IItemTask {
@@ -16,7 +17,7 @@ export interface IItemTask {
   group: string;
   id: number;
   file?: IFile | null;
-  subtasks?: Array<any>;
+  subtasks?: ISubtask[];
   comments?: '';
 }
 export interface ISubtask {
@@ -37,12 +38,11 @@ export interface IFormTaskChange {
   file?: IFile | null;
   subtasks: ISubtask[];
   comments?: '';
-  base64Data?: string;
 }
 
 export interface IReducerState {
   items: Array<IItemTask>;
-  taskItem: IItemTask;
+  taskItem: IItemTask | null;
   notice: string;
 }
 

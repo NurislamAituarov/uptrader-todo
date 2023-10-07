@@ -1,54 +1,8 @@
 import { IReducerState } from '../types';
 
 const initial: IReducerState = {
-  items: [
-    {
-      number: 1,
-      title: 'item1',
-      description:
-        'assanis — «осень», готск. 𐌰𐍃𐌰𐌽𐍃 — «жатва», этимологически — «время жатвы»; по толкованию Даля — от «осенять» — затенять: наступление сумрака) — одно из четырёх времён года, между летом и зимой. Осень — переходный сезон, когда заметно уменьшение светового дня, и постепенно понижается температура окружающей среды.',
-      dateCreate: '2023-10-10T14:48:00',
-      timeWork: 0,
-      dateEnd: '',
-      priority: 'high',
-      attachedFiles: null,
-      group: 'Queue',
-      id: 1,
-      file: null,
-      subtasks: [],
-      comments: '',
-    },
-    {
-      number: 2,
-      title: 'item2',
-      description: '',
-      dateCreate: '',
-      timeWork: 0,
-      dateEnd: '',
-      priority: 'high',
-      attachedFiles: null,
-      group: 'Queue',
-      id: 2,
-      file: null,
-      subtasks: [],
-      comments: '',
-    },
-  ],
-  taskItem: {
-    number: 2,
-    title: 'item2',
-    description: '',
-    dateCreate: '',
-    timeWork: 0,
-    dateEnd: '',
-    priority: 'high',
-    attachedFiles: null,
-    group: 'Queue',
-    id: 2,
-    file: null,
-    subtasks: [],
-    comments: '',
-  },
+  items: [],
+  taskItem: null,
   notice: '',
 };
 
