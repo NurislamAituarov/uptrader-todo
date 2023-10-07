@@ -7,6 +7,7 @@ import { IFormTaskChange, IItemTask } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
 import { DeleteIcon } from '../../../components/svg/DeleteIcon';
 import { FileDownload } from './FileDownload';
+import { getDataLocalStorage, setDataLocalStorage } from '../../../lib/localStorage';
 
 export function ChangeTask() {
   const item = useAppSelector((state) => state.state.taskItem);
@@ -63,22 +64,15 @@ export function ChangeTask() {
   // добавить данные формы в хранилище
   useEffect(() => {
     dispatch(updateTaskChange({ idTask: form.id, task: form }));
-
-    const itemsLocal = localStorage.getItem('tasks');
-    let items: IItemTask[] = [];
-    if (itemsLocal) {
-      items = JSON.parse(itemsLocal);
-    }
-    localStorage.setItem(
+    let items: IItemTask[] = getDataLocalStorage('tasks');
+    setDataLocalStorage(
       'tasks',
-      JSON.stringify(
-        items.map((item) => {
-          if (form.id === item.id) {
-            return { ...item, ...form };
-          }
-          return item;
-        }),
-      ),
+      items.map((item) => {
+        if (form.id === item.id) {
+          return { ...item, ...form };
+        }
+        return item;
+      }),
     );
   }, [form.title, form.description, form.priority, form.comments, form.subtasks]);
 
