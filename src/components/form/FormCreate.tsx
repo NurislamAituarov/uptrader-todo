@@ -5,13 +5,21 @@ import { Context } from '../../lib/context';
 import { CloseBtn } from '../close-btn/CloseBtn';
 
 import './Form.scss';
+import { IFile } from '@/types';
+
+interface IForm {
+  title: string;
+  description: string;
+  priority: string;
+  file: IFile | null;
+}
 
 export function FormCreate() {
   const tasks = useAppSelector((state) => state.state.items);
   const [priority, setPriority] = useState('');
   const popup = useContext(Context);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<IForm>({
     title: '',
     description: '',
     priority: '',
@@ -48,12 +56,35 @@ export function FormCreate() {
         title: form.title,
         description: form.description,
         priority,
-        file: form.file,
         group: 'Queue',
       };
 
-      dispatch(addTask(formData));
-      localStorage.setItem('tasks', JSON.stringify([...tasks, formData]));
+      if (form.file) {
+        const reader = new FileReader();
+        reader.onload = (event: any) => {
+          const file = {
+            base64Data: event.target.result,
+            name: form.file?.name || '',
+            type: form.file?.type || '',
+            size: form.file?.size || 0,
+          };
+
+          localStorage.setItem(
+            'tasks',
+            JSON.stringify([
+              ...tasks,
+              {
+                ...formData,
+                file,
+              },
+            ]),
+          );
+
+          dispatch(addTask({ ...formData, file }));
+        };
+        reader.readAsDataURL(form.file as any);
+      }
+
       dispatch(addNotice(`${form.title} is added!`));
       closeForm();
     }

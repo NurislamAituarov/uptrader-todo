@@ -3,7 +3,7 @@ import cn from 'classnames';
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
-import { IFormTaskChange } from '@/types';
+import { IFormTaskChange, IItemTask } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
 import { DeleteIcon } from '../../../components/svg/DeleteIcon';
 import { FileDownload } from './FileDownload';
@@ -40,16 +40,6 @@ export function ChangeTask() {
 
   // добавить в форму при первой инициализации данные с хранилище
   useEffect(() => {
-    const file = item?.file as any;
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event: any) => {
-        setForm((data) => {
-          return { ...data, base64Data: event.target.result };
-        });
-      };
-      reader.readAsDataURL(file);
-    }
     item &&
       setForm((state: any) => {
         return {
@@ -73,7 +63,24 @@ export function ChangeTask() {
   // добавить данные формы в хранилище
   useEffect(() => {
     dispatch(updateTaskChange({ idTask: form.id, task: form }));
-  }, [form.title, form.description, form.priority, form.comments]);
+
+    const itemsLocal = localStorage.getItem('tasks');
+    let items: IItemTask[] = [];
+    if (itemsLocal) {
+      items = JSON.parse(itemsLocal);
+    }
+    localStorage.setItem(
+      'tasks',
+      JSON.stringify(
+        items.map((item) => {
+          if (form.id === item.id) {
+            return { ...item, ...form };
+          }
+          return item;
+        }),
+      ),
+    );
+  }, [form.title, form.description, form.priority, form.comments, form.subtasks]);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;

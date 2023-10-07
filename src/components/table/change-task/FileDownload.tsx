@@ -20,15 +20,15 @@ export function FileDownload({ form }: IProps) {
 
   if (typeImg) {
     content = (
-      <a href={form.base64Data} download={form.file?.name} className={style['wrapper-img']}>
-        <img src={form.base64Data} alt="img" />
+      <a href={form.file?.base64Data} download={form.file?.name} className={style['wrapper-img']}>
+        <img src={form.file?.base64Data} alt="img" />
       </a>
     );
   } else if (form.file?.type === 'application/pdf' || typeFile) {
     const fileTypeIcon = typeFile ? <FileDocIcon /> : <FilePdfIcon />;
 
     content = (
-      <a href={form.base64Data} download={form.file?.name} className={style.document}>
+      <a href={form.file?.base64Data} download={form.file?.name} className={style.document}>
         {fileTypeIcon}
         <div>
           <p className={style['name-file']}>{form.file?.name}</p>

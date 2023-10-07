@@ -29,10 +29,12 @@ export const updateTaskChange = ({ idTask, task }: IUpdateTask) => ({
 });
 
 export const removeTask = (taskId: number) => ({ type: 'REMOVE_TASK', payload: taskId });
+
 export const newMovedTaskItems = (items: Array<IItemTask>) => ({
   type: 'MOVE_TASK',
   payload: items,
 });
+
 export const changeTaskTimeWork = ({ taskId, timeWork }: IChangeTask) => ({
   type: 'CHANGE_TASK_TIME_WORK',
   payload: { taskId, timeWork },
