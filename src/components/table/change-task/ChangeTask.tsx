@@ -3,12 +3,14 @@ import cn from 'classnames';
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
-import { IFormTaskChange, IItemTask } from '@/types';
+import { IFormTaskChange } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
 import { DeleteIcon } from '../../../components/svg/DeleteIcon';
 import { FileDownload } from './FileDownload';
+import { setDataLocalStorage } from '../../../lib/localStorage';
 
 export function ChangeTask() {
+  const items = useAppSelector((state) => state.state.items);
   const item = useAppSelector((state) => state.state.taskItem);
   const [dropdownPriority, setDropdownPriority] = useState(false);
   const [form, setForm] = useState<IFormTaskChange>({
@@ -63,22 +65,14 @@ export function ChangeTask() {
   // добавить данные формы в хранилище
   useEffect(() => {
     dispatch(updateTaskChange({ idTask: form.id, task: form }));
-
-    const itemsLocal = localStorage.getItem('tasks');
-    let items: IItemTask[] = [];
-    if (itemsLocal) {
-      items = JSON.parse(itemsLocal);
-    }
-    localStorage.setItem(
+    setDataLocalStorage(
       'tasks',
-      JSON.stringify(
-        items.map((item) => {
-          if (form.id === item.id) {
-            return { ...item, ...form };
-          }
-          return item;
-        }),
-      ),
+      items.map((item) => {
+        if (form.id === item.id) {
+          return { ...item, ...form };
+        }
+        return item;
+      }),
     );
   }, [form.title, form.description, form.priority, form.comments, form.subtasks]);
 

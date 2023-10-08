@@ -1,9 +1,10 @@
 import { Column } from './column/Column';
 import './Table.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
+import { addNotice, changeTaskDateEnd, newMovedTaskItems, removeTask } from '../../store/actions';
 import { useContext, useEffect } from 'react';
 import { Context } from '../../lib/context';
+import { getDataLocalStorage, setDataLocalStorage } from '../../lib/localStorage';
 
 export function Table() {
   const items = useAppSelector((state) => state.state.items);
@@ -12,10 +13,9 @@ export function Table() {
   const groups = ['Queue', 'Development', 'Done'];
 
   useEffect(() => {
-    const itemsLocal = localStorage.getItem('tasks');
-    if (itemsLocal) {
-      dispatch(newMovedTaskItems(JSON.parse(itemsLocal)));
-    }
+    const localTasks = getDataLocalStorage('tasks');
+
+    localTasks && dispatch(newMovedTaskItems(getDataLocalStorage('tasks')));
   }, []);
 
   const moveGroup = (itemId: number, groupToMove: string) => {
@@ -25,8 +25,14 @@ export function Table() {
       itemToMove.group = groupToMove;
       const newItemsMoved = [...items.slice(0, index), itemToMove, ...items.slice(index + 1)];
       dispatch(newMovedTaskItems(newItemsMoved));
-      localStorage.setItem('tasks', JSON.stringify(newItemsMoved));
+      setDataLocalStorage('tasks', newItemsMoved);
       dispatch(addNotice(`${itemToMove.title} is moved to ${itemToMove.group}!`));
+
+      if (itemToMove.group === 'Done') {
+        dispatch(changeTaskDateEnd({ taskId: itemToMove.id, status: 'Done' }));
+      } else {
+        dispatch(changeTaskDateEnd({ taskId: itemToMove.id }));
+      }
     }
   };
 
@@ -39,7 +45,7 @@ export function Table() {
   };
 
   const mainList = groups.map((group) => {
-    const groupItems = items.filter((item) => item.group === group);
+    const groupItems = items ? items.filter((item) => item.group === group) : [];
     return (
       <Column
         group={group}
