@@ -41,9 +41,9 @@ function App() {
     <Context.Provider value={{ popup, closePopup, openPopupChange }}>
       <div className="wrapper">
         <div className="project__control">
-          <h1>Name project</h1>
+          <h1>Название проекта</h1>
           <button className="btn" onClick={openPopup}>
-            Add Task
+            Добавить задачу
           </button>
         </div>
 

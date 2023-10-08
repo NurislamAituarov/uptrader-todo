@@ -1,3 +1,4 @@
+import { setDataLocalStorage } from '../lib/localStorage';
 import { IReducerState } from '../types';
 
 const initial: IReducerState = {
@@ -34,6 +35,7 @@ export default function Reducer(state = initial, action: any): IReducerState {
 
     case 'REMOVE_TASK':
       const filteredItems = state.items.filter((item) => item.id !== action.payload);
+      setDataLocalStorage('tasks', filteredItems);
 
       return {
         ...state,

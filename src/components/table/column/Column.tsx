@@ -1,6 +1,7 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import Item from '../item/Item';
 import { IItemTask } from '@/types';
+import { getNameGroup } from '../../../lib/helpers';
 
 interface IProps {
   group: string;
@@ -27,7 +28,7 @@ export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }:
 
   return (
     <div className="container">
-      <h3>{group}</h3>
+      <h3>{getNameGroup(group)}</h3>
       <ul
         className="col"
         id={group}

@@ -86,7 +86,7 @@ export function FormCreate() {
         setDataLocalStorage('tasks', [...tasks, formData]);
       }
 
-      dispatch(addNotice(`${form.title} is added!`));
+      dispatch(addNotice(`${form.title} добавлен!`));
       closeForm();
     }
   }
@@ -143,7 +143,7 @@ export function FormCreate() {
           </div>
 
           <button disabled={!form.title} className="btn btn__create" type="submit">
-            create
+            создать
           </button>
 
           <CloseBtn type="type-1" handelMore={closeForm} />
