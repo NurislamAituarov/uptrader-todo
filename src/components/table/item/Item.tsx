@@ -136,7 +136,7 @@ export default memo(({ item, deleteItem }: IProps) => {
           deleteItem(item.id);
         }}
         className="btn">
-        remove
+        удалить
       </button>
     </li>
   );

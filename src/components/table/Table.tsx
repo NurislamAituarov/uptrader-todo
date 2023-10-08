@@ -5,6 +5,7 @@ import { addNotice, changeTaskDateEnd, newMovedTaskItems, removeTask } from '../
 import { useContext, useEffect } from 'react';
 import { Context } from '../../lib/context';
 import { getDataLocalStorage, setDataLocalStorage } from '../../lib/localStorage';
+import { getNameGroup } from '../../lib/helpers';
 
 export function Table() {
   const items = useAppSelector((state) => state.state.items);
@@ -26,7 +27,7 @@ export function Table() {
       const newItemsMoved = [...items.slice(0, index), itemToMove, ...items.slice(index + 1)];
       dispatch(newMovedTaskItems(newItemsMoved));
       setDataLocalStorage('tasks', newItemsMoved);
-      dispatch(addNotice(`${itemToMove.title} is moved to ${itemToMove.group}!`));
+      dispatch(addNotice(`${itemToMove.title} перенесен в ${getNameGroup(itemToMove.group)}!`));
 
       if (itemToMove.group === 'Done') {
         dispatch(changeTaskDateEnd({ taskId: itemToMove.id, status: 'Done' }));
@@ -39,7 +40,7 @@ export function Table() {
   const deleteItem = (itemId: number) => {
     const index = items.findIndex((item) => item.id === itemId);
     const name = items[index].title;
-    name && dispatch(addNotice(`${name} is deleted!`));
+    name && dispatch(addNotice(`${name} удален!`));
     dispatch(removeTask(itemId));
     context?.closePopup();
   };
