@@ -6,6 +6,7 @@ import { CloseBtn } from '../close-btn/CloseBtn';
 
 import './Form.scss';
 import { IFile } from '@/types';
+import { setDataLocalStorage } from '../../lib/localStorage';
 
 interface IForm {
   title: string;
@@ -69,23 +70,20 @@ export function FormCreate() {
             size: form.file?.size || 0,
           };
 
-          localStorage.setItem(
-            'tasks',
-            JSON.stringify([
-              ...tasks,
-              {
-                ...formData,
-                file,
-              },
-            ]),
-          );
+          setDataLocalStorage('tasks', [
+            ...tasks,
+            {
+              ...formData,
+              file,
+            },
+          ]);
 
           dispatch(addTask({ ...formData, file }));
         };
         reader.readAsDataURL(form.file as any);
       } else {
         dispatch(addTask(formData));
-        localStorage.setItem('tasks', JSON.stringify([...tasks, formData]));
+        setDataLocalStorage('tasks', [...tasks, formData]);
       }
 
       dispatch(addNotice(`${form.title} is added!`));

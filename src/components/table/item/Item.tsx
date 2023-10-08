@@ -13,7 +13,7 @@ import cn from 'classnames';
 
 import { IItemTask } from '@/types';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { changeTaskTimeWork, changeTaskDateEnd, addTaskChange } from '../../../store/actions';
+import { changeTaskTimeWork, addTaskChange } from '../../../store/actions';
 import { Context } from '../../../lib/context';
 import { SubtaskIcon } from '../../../components/svg/SubtaskIcon';
 import { DescriptionTruncate } from '../../../components/description/Description';
@@ -41,12 +41,6 @@ export default memo(({ item, deleteItem }: IProps) => {
     }
 
     setDataLocalStorage('tasks', items);
-
-    if (item.group === 'Done') {
-      // dispatch(changeTaskDateEnd({ taskId: item.id, status: 'Done' }));
-    } else {
-      // dispatch(changeTaskDateEnd({ taskId: item.id }));
-    }
 
     return () => {
       if (idInterval.current !== null) {
