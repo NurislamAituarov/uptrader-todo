@@ -11,13 +11,14 @@ import {
 
 import cn from 'classnames';
 
-import { useAppDispatch } from '../../../hooks/redux';
-import { changeTaskTimeWork, changeTaskDateEnd, addTaskChange } from '../../../store/actions';
 import { IItemTask } from '@/types';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { changeTaskTimeWork, changeTaskDateEnd, addTaskChange } from '../../../store/actions';
 import { Context } from '../../../lib/context';
 import { SubtaskIcon } from '../../../components/svg/SubtaskIcon';
 import { DescriptionTruncate } from '../../../components/description/Description';
 import './Item.scss';
+import { setDataLocalStorage } from '../../../lib/localStorage';
 
 interface IProps {
   item: IItemTask;
@@ -25,6 +26,7 @@ interface IProps {
 }
 
 export default memo(({ item, deleteItem }: IProps) => {
+  const items = useAppSelector((state) => state.state.items);
   const [timeWork, setTimeWork] = useState(0);
   const refTimeWorkItem = useRef(item.timeWork);
   const idInterval = useRef<NodeJS.Timer | null>(null);
@@ -38,10 +40,12 @@ export default memo(({ item, deleteItem }: IProps) => {
       }, 1000);
     }
 
+    setDataLocalStorage('tasks', items);
+
     if (item.group === 'Done') {
-      dispatch(changeTaskDateEnd({ taskId: item.id, status: 'Done' }));
+      // dispatch(changeTaskDateEnd({ taskId: item.id, status: 'Done' }));
     } else {
-      dispatch(changeTaskDateEnd({ taskId: item.id }));
+      // dispatch(changeTaskDateEnd({ taskId: item.id }));
     }
 
     return () => {

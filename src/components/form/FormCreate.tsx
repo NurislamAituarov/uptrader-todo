@@ -83,6 +83,9 @@ export function FormCreate() {
           dispatch(addTask({ ...formData, file }));
         };
         reader.readAsDataURL(form.file as any);
+      } else {
+        dispatch(addTask(formData));
+        localStorage.setItem('tasks', JSON.stringify([...tasks, formData]));
       }
 
       dispatch(addNotice(`${form.title} is added!`));

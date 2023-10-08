@@ -3,13 +3,14 @@ import cn from 'classnames';
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
-import { IFormTaskChange, IItemTask } from '@/types';
+import { IFormTaskChange } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
 import { DeleteIcon } from '../../../components/svg/DeleteIcon';
 import { FileDownload } from './FileDownload';
-import { getDataLocalStorage, setDataLocalStorage } from '../../../lib/localStorage';
+import { setDataLocalStorage } from '../../../lib/localStorage';
 
 export function ChangeTask() {
+  const items = useAppSelector((state) => state.state.items);
   const item = useAppSelector((state) => state.state.taskItem);
   const [dropdownPriority, setDropdownPriority] = useState(false);
   const [form, setForm] = useState<IFormTaskChange>({
@@ -64,7 +65,6 @@ export function ChangeTask() {
   // добавить данные формы в хранилище
   useEffect(() => {
     dispatch(updateTaskChange({ idTask: form.id, task: form }));
-    let items: IItemTask[] = getDataLocalStorage('tasks');
     setDataLocalStorage(
       'tasks',
       items.map((item) => {
