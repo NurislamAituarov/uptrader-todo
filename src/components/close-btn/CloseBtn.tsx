@@ -11,7 +11,7 @@ export function CloseBtn({ type, handelMore }: ICloseBtn) {
       {type === 'type-1' && (
         <button className={styles[type]} onClick={handelMore}>
           <span className={styles.inner}>
-            <span className={styles.label}>Close</span>
+            <span className={styles.label}>закрыть</span>
           </span>
         </button>
       )}
