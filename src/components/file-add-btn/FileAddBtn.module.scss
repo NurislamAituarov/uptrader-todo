@@ -1,0 +1,38 @@
+.download-add {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  border: 1px solid #5f6a74;
+  padding: 10px;
+  border-radius: 4px;
+  transition: all 0.4s;
+  margin-bottom: 10px;
+  &:hover {
+    border: 1px solid #464f58;
+    background-color: #273442;
+  }
+
+  label {
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.file {
+  display: block;
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px;
+  color: black;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s;
+  &:hover {
+    background-color: #d4d4d4;
+  }
+}
+input[type='file'] {
+  display: none;
+}

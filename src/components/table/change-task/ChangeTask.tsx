@@ -8,6 +8,8 @@ import { addSubtask, updateTaskChange } from '../../../store/actions';
 import { DeleteIcon } from '../../../components/svg/DeleteIcon';
 import { FileDownload } from './FileDownload';
 import { setDataLocalStorage } from '../../../lib/localStorage';
+import { downloadFile } from '../../../lib/helpers';
+import { FileAddBtn } from '../../../components/file-add-btn/FileAddBtn';
 
 export function ChangeTask() {
   const items = useAppSelector((state) => state.state.items);
@@ -94,6 +96,10 @@ export function ChangeTask() {
     setForm((data: any) => {
       return { ...data, subtasks: newSubtask };
     });
+  }
+
+  function handleFileChange(e: any) {
+    downloadFile(e.target.files[0], setForm);
   }
 
   function selectPriorityListItem(value: string) {
@@ -243,10 +249,14 @@ export function ChangeTask() {
           </div>
 
           <div className={style['download-wrapper']}>
-            {form.files &&
-              form.files.map((file) => {
-                return <FileDownload file={file} />;
-              })}
+            <FileAddBtn handleFileChange={handleFileChange} type="change" />
+
+            <div className={style['download-wrapper__files']}>
+              {form.files &&
+                form.files.map((file) => {
+                  return <FileDownload file={file} />;
+                })}
+            </div>
           </div>
         </div>
       </form>

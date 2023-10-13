@@ -8,6 +8,8 @@ import './Form.scss';
 import { IFile } from '@/types';
 import { setDataLocalStorage } from '../../lib/localStorage';
 import { CloseIcon } from '../svg/CloseIcon';
+import { downloadFile } from '../../lib/helpers';
+import { FileAddBtn } from '../file-add-btn/FileAddBtn';
 
 interface IForm {
   title: string;
@@ -37,21 +39,7 @@ export function FormCreate() {
   }
 
   function handleFileChange(e: any) {
-    const reader = new FileReader();
-
-    reader.onload = (event: any) => {
-      const file = {
-        base64Data: event.target.result,
-        name: e.target.files[0]?.name || '',
-        type: e.target.files[0]?.type || '',
-        size: e.target.files[0]?.size || 0,
-        id: new Date().getTime(),
-      };
-      setForm((data) => {
-        return { ...data, files: [...data.files, file] };
-      });
-    };
-    reader.readAsDataURL(e.target.files[0]);
+    downloadFile(e.target.files[0], setForm);
   }
 
   function onCreateTask(e: FormEvent<HTMLFormElement>) {
@@ -132,10 +120,11 @@ export function FormCreate() {
           </div>
 
           <div className="form__item">
-            <label className="file" htmlFor="file">
+            <FileAddBtn handleFileChange={handleFileChange} type="create" />
+            {/* <label className="file" htmlFor="file">
               Добавить файл
             </label>
-            <input name="file" id="file" type="file" onChange={handleFileChange} />
+            <input name="file" id="file" type="file" onChange={handleFileChange} /> */}
             {form.files &&
               form.files.map((file) => {
                 return (

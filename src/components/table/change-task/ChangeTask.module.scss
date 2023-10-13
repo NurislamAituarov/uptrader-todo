@@ -185,11 +185,14 @@ form {
   }
 
   .download-wrapper {
-    display: flex;
     min-height: 100px;
-    align-items: end;
-    gap: 10px;
-    flex-wrap: wrap;
+
+    .download-wrapper__files {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
   }
 }
 
