@@ -183,6 +183,14 @@ form {
       }
     }
   }
+
+  .download-wrapper {
+    display: flex;
+    min-height: 100px;
+    align-items: end;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 }
 
 @keyframes change-sidebar {

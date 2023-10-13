@@ -18,7 +18,7 @@ export function ChangeTask() {
     title: '',
     description: '',
     priority: '',
-    file: null,
+    files: [],
     subtasks: [],
     comments: '',
   });
@@ -51,7 +51,7 @@ export function ChangeTask() {
           description: item.description,
           priority: item.priority ? item.priority : '',
           subtasks: item.subtasks || [],
-          file: item.file,
+          files: item.files,
           comments: item.comments ?? '',
         };
       });
@@ -242,7 +242,12 @@ export function ChangeTask() {
               onChange={handleInputChange}></textarea>
           </div>
 
-          <FileDownload form={form} />
+          <div className={style['download-wrapper']}>
+            {form.files &&
+              form.files.map((file) => {
+                return <FileDownload file={file} />;
+              })}
+          </div>
         </div>
       </form>
     </div>

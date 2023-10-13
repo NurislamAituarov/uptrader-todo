@@ -5,38 +5,38 @@ import { FilePdfIcon } from '../../../components/svg/FilePdfIcon';
 import { useMemo } from 'react';
 
 interface IProps {
-  form: IFormTaskChange;
+  file: any;
 }
 
-export function FileDownload({ form }: IProps) {
+export function FileDownload({ file }: IProps) {
   let content;
   const typeFile = useMemo(() => {
     return (
-      form.file?.type === 'text/plain' ||
-      form.file?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      file.type === 'text/plain' ||
+      file?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     );
-  }, [form]);
-  const typeImg = form.file?.type.match(/\bimage\b/g);
+  }, [file]);
+  const typeImg = file?.type.match(/\bimage\b/g);
 
   if (typeImg) {
     content = (
-      <a href={form.file?.base64Data} download={form.file?.name} className={style['wrapper-img']}>
-        <img src={form.file?.base64Data} alt="img" />
+      <a href={file?.base64Data} download={file?.name} className={style['wrapper-img']}>
+        <img src={file?.base64Data} alt="img" />
       </a>
     );
-  } else if (form.file?.type === 'application/pdf' || typeFile) {
+  } else if (file?.type === 'application/pdf' || typeFile) {
     const fileTypeIcon = typeFile ? <FileDocIcon /> : <FilePdfIcon />;
 
     content = (
-      <a href={form.file?.base64Data} download={form.file?.name} className={style.document}>
+      <a href={file?.base64Data} download={file?.name} className={style.document}>
         {fileTypeIcon}
         <div>
-          <p className={style['name-file']}>{form.file?.name}</p>
+          <p className={style['name-file']}>{file?.name}</p>
           <span>{typeFile ? 'Текстовый файл' : 'PDF файл'}</span>
         </div>
       </a>
     );
   }
 
-  return <div className={style['downloaded-wrapper']}>{content}</div>;
+  return <div className={style['downloaded-file']}>{content}</div>;
 }

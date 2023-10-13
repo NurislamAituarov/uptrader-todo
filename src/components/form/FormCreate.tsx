@@ -7,12 +7,13 @@ import { CloseBtn } from '../close-btn/CloseBtn';
 import './Form.scss';
 import { IFile } from '@/types';
 import { setDataLocalStorage } from '../../lib/localStorage';
+import { CloseIcon } from '../svg/CloseIcon';
 
 interface IForm {
   title: string;
   description: string;
   priority: string;
-  file: IFile | null;
+  files: IFile[];
 }
 
 export function FormCreate() {
@@ -24,7 +25,7 @@ export function FormCreate() {
     title: '',
     description: '',
     priority: '',
-    file: null,
+    files: [],
   });
   const dispatch = useAppDispatch();
 
@@ -44,10 +45,10 @@ export function FormCreate() {
         name: e.target.files[0]?.name || '',
         type: e.target.files[0]?.type || '',
         size: e.target.files[0]?.size || 0,
+        id: new Date().getTime(),
       };
-      console.log(file);
       setForm((data) => {
-        return { ...data, file };
+        return { ...data, files: [...data.files, file] };
       });
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -67,36 +68,14 @@ export function FormCreate() {
         dateCreate: `${UKDate.format(now)} ${formattedTime}`,
         timeWork: 0,
         title: form.title,
-        file: form.file,
+        files: form.files,
         description: form.description,
         priority,
         group: 'Queue',
       };
 
-      if (!form.file) {
-        // const reader = new FileReader();
-        // reader.onload = (event: any) => {
-        //   const file = {
-        //     base64Data: event.target.result,
-        //     name: form.file?.name || '',
-        //     type: form.file?.type || '',
-        //     size: form.file?.size || 0,
-        //   };
-        //   setDataLocalStorage('tasks', [
-        //     ...tasks,
-        //     {
-        //       ...formData,
-        //       file,
-        //     },
-        //   ]);
-        //   dispatch(addTask({ ...formData, file }));
-        // };
-        // reader.readAsDataURL(form.file as any);
-      } else {
-        dispatch(addTask(formData));
-        setDataLocalStorage('tasks', [...tasks, formData]);
-      }
-
+      dispatch(addTask(formData));
+      setDataLocalStorage('tasks', [...tasks, formData]);
       dispatch(addNotice(`${form.title} добавлен!`));
       closeForm();
     }
@@ -108,6 +87,12 @@ export function FormCreate() {
 
   function closeForm() {
     popup?.closePopup();
+  }
+
+  function onRemoveFile(id: number | undefined) {
+    setForm((data) => {
+      return { ...data, files: data.files.filter((file) => file.id !== id) };
+    });
   }
 
   return (
@@ -151,7 +136,17 @@ export function FormCreate() {
               Добавить файл
             </label>
             <input name="file" id="file" type="file" onChange={handleFileChange} />
-            <div className="file-wrapper"></div>
+            {form.files &&
+              form.files.map((file) => {
+                return (
+                  <div className="download-files" key={file.id}>
+                    <div className="download-file">
+                      {file.name}
+                      <CloseIcon onClick={() => onRemoveFile(file.id)} />
+                    </div>
+                  </div>
+                );
+              })}
           </div>
 
           <button disabled={!form.title} className="btn btn__create" type="submit">
