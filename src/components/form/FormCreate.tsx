@@ -36,9 +36,21 @@ export function FormCreate() {
   }
 
   function handleFileChange(e: any) {
-    setForm((data) => {
-      return { ...data, file: e.target.files[0] };
-    });
+    const reader = new FileReader();
+
+    reader.onload = (event: any) => {
+      const file = {
+        base64Data: event.target.result,
+        name: e.target.files[0]?.name || '',
+        type: e.target.files[0]?.type || '',
+        size: e.target.files[0]?.size || 0,
+      };
+      console.log(file);
+      setForm((data) => {
+        return { ...data, file };
+      });
+    };
+    reader.readAsDataURL(e.target.files[0]);
   }
 
   function onCreateTask(e: FormEvent<HTMLFormElement>) {
@@ -55,32 +67,31 @@ export function FormCreate() {
         dateCreate: `${UKDate.format(now)} ${formattedTime}`,
         timeWork: 0,
         title: form.title,
+        file: form.file,
         description: form.description,
         priority,
         group: 'Queue',
       };
 
-      if (form.file) {
-        const reader = new FileReader();
-        reader.onload = (event: any) => {
-          const file = {
-            base64Data: event.target.result,
-            name: form.file?.name || '',
-            type: form.file?.type || '',
-            size: form.file?.size || 0,
-          };
-
-          setDataLocalStorage('tasks', [
-            ...tasks,
-            {
-              ...formData,
-              file,
-            },
-          ]);
-
-          dispatch(addTask({ ...formData, file }));
-        };
-        reader.readAsDataURL(form.file as any);
+      if (!form.file) {
+        // const reader = new FileReader();
+        // reader.onload = (event: any) => {
+        //   const file = {
+        //     base64Data: event.target.result,
+        //     name: form.file?.name || '',
+        //     type: form.file?.type || '',
+        //     size: form.file?.size || 0,
+        //   };
+        //   setDataLocalStorage('tasks', [
+        //     ...tasks,
+        //     {
+        //       ...formData,
+        //       file,
+        //     },
+        //   ]);
+        //   dispatch(addTask({ ...formData, file }));
+        // };
+        // reader.readAsDataURL(form.file as any);
       } else {
         dispatch(addTask(formData));
         setDataLocalStorage('tasks', [...tasks, formData]);
@@ -140,6 +151,7 @@ export function FormCreate() {
               Добавить файл
             </label>
             <input name="file" id="file" type="file" onChange={handleFileChange} />
+            <div className="file-wrapper"></div>
           </div>
 
           <button disabled={!form.title} className="btn btn__create" type="submit">

@@ -27,7 +27,9 @@ export function Table() {
       const newItemsMoved = [...items.slice(0, index), itemToMove, ...items.slice(index + 1)];
       dispatch(newMovedTaskItems(newItemsMoved));
       setDataLocalStorage('tasks', newItemsMoved);
-      dispatch(addNotice(`${itemToMove.title} перенесен в ${getNameGroup(itemToMove.group)}!`));
+      dispatch(
+        addNotice(`${itemToMove.title} перенесен в столбец ${getNameGroup(itemToMove.group)}!`),
+      );
 
       if (itemToMove.group === 'Done') {
         dispatch(changeTaskDateEnd({ taskId: itemToMove.id, status: 'Done' }));
