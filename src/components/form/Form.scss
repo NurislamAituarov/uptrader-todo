@@ -50,6 +50,26 @@
       }
     }
 
+    .download-files {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      .download-file {
+        display: inline-block;
+        width: max-content;
+        padding: 5px 10px;
+        background-color: grey;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        svg {
+          cursor: pointer;
+        }
+      }
+    }
+
     &-priority {
       display: flex;
       align-items: center;

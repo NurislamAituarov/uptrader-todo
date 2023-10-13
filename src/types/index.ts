@@ -3,6 +3,7 @@ export interface IFile {
   size: number;
   type: string;
   base64Data?: string;
+  id: number;
 }
 
 export interface IItemTask {
@@ -16,7 +17,7 @@ export interface IItemTask {
   attachedFiles?: any;
   group: string;
   id: number;
-  file?: IFile | null;
+  files?: IFile[];
   subtasks?: ISubtask[];
   comments?: '';
 }
@@ -35,7 +36,7 @@ export interface IFormTaskChange {
   title: string;
   description: string;
   priority: string;
-  file?: IFile | null;
+  files?: IFile[];
   subtasks: ISubtask[];
   comments?: '';
 }
