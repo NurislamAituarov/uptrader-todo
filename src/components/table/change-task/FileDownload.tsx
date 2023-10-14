@@ -1,11 +1,11 @@
-import { IFormTaskChange } from '@/types';
-import style from './FileDownload.module.scss';
+import { useMemo } from 'react';
 import { FileDocIcon } from '../../../components/svg/FileDocIcon';
 import { FilePdfIcon } from '../../../components/svg/FilePdfIcon';
-import { useMemo } from 'react';
+import style from './FileDownload.module.scss';
+import { IFile } from '@/types';
 
 interface IProps {
-  file: any;
+  file: IFile;
 }
 
 export function FileDownload({ file }: IProps) {
