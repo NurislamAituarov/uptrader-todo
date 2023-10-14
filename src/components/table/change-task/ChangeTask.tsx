@@ -1,5 +1,7 @@
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
+import { debounce } from 'lodash';
+
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
@@ -64,18 +66,23 @@ export function ChangeTask() {
     dispatch(addSubtask({ idTask: form.id, subtasks: form.subtasks }));
   }, [form.subtasks]);
 
-  // добавить данные формы в хранилище
-  useEffect(() => {
-    dispatch(updateTaskChange({ idTask: form.id, task: form }));
+  // функция-обертка для dispatch
+  const debouncedDispatch = debounce((idTask, task) => {
+    dispatch(updateTaskChange({ idTask, task }));
     setDataLocalStorage(
       'tasks',
       items.map((item) => {
-        if (form.id === item.id) {
-          return { ...item, ...form };
+        if (idTask === item.id) {
+          return { ...item, ...task };
         }
         return item;
       }),
     );
+  }, 1000);
+
+  // добавить данные формы в хранилище
+  useEffect(() => {
+    debouncedDispatch(form.id, form);
   }, [form.title, form.description, form.priority, form.comments, form.subtasks, form.files]);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
