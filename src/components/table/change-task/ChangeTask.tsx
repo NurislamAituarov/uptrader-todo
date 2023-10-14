@@ -76,7 +76,7 @@ export function ChangeTask() {
         return item;
       }),
     );
-  }, [form.title, form.description, form.priority, form.comments, form.subtasks]);
+  }, [form.title, form.description, form.priority, form.comments, form.subtasks, form.files]);
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
@@ -251,12 +251,13 @@ export function ChangeTask() {
           <div className={style['download-wrapper']}>
             <FileAddBtn handleFileChange={handleFileChange} type="change" />
 
-            <div className={style['download-wrapper__files']}>
-              {form.files &&
-                form.files.map((file) => {
+            {!!form.files?.length && (
+              <div className={style['download-wrapper__files']}>
+                {form.files.map((file) => {
                   return <FileDownload file={file} />;
                 })}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </form>

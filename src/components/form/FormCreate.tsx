@@ -121,10 +121,6 @@ export function FormCreate() {
 
           <div className="form__item">
             <FileAddBtn handleFileChange={handleFileChange} type="create" />
-            {/* <label className="file" htmlFor="file">
-              Добавить файл
-            </label>
-            <input name="file" id="file" type="file" onChange={handleFileChange} /> */}
             {form.files &&
               form.files.map((file) => {
                 return (

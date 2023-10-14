@@ -186,12 +186,15 @@ form {
 
   .download-wrapper {
     min-height: 100px;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     .download-wrapper__files {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
+      margin-top: 10px;
     }
   }
 }
