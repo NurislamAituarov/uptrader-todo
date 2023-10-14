@@ -4,6 +4,7 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
   // justify-content: space-around;
 }
 
@@ -40,7 +41,7 @@
 }
 
 .container {
-  width: 25vw;
+  width: 440px;
 }
 
 h3 {
@@ -56,6 +57,7 @@ ul {
   align-items: center;
   justify-content: flex-start;
   padding: 10px 0;
+  gap: 20px;
 }
 
 #box {
@@ -66,4 +68,18 @@ ul {
   margin: 10px;
   padding: 5px;
   text-align: center;
+}
+
+@media (max-width: 1446px) {
+  .container {
+    width: 30vw;
+  }
+}
+@media (max-width: 1180px) {
+  .table__content {
+    width: 1110px;
+  }
+  .container {
+    width: 355px;
+  }
 }
