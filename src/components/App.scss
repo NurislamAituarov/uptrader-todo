@@ -46,14 +46,17 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  flex-wrap: wrap;
+  gap: 20px;
   h1 {
     flex: 1;
+    min-width: 300px;
   }
 
   .btn {
     flex: 1;
     background-color: #3e65a8;
+    min-width: 300px;
   }
 }
 

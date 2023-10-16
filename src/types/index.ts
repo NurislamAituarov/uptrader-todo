@@ -45,6 +45,7 @@ export interface IReducerState {
   items: Array<IItemTask>;
   taskItem: IItemTask | null;
   notice: string;
+  draggedItemId: string | null;
 }
 
 interface IActionNotice {
