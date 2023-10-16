@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.199",
     "tsconfig-paths-webpack-plugin": "^4.1.0"
   }
 }

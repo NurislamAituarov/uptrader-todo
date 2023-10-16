@@ -13,7 +13,7 @@ import cn from 'classnames';
 
 import { IItemTask } from '@/types';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { changeTaskTimeWork, addTaskChange } from '../../../store/actions';
+import { changeTaskTimeWork, addTaskChange, setDraggedItemId } from '../../../store/actions';
 import { Context } from '../../../lib/context';
 import { SubtaskIcon } from '../../../components/svg/SubtaskIcon';
 import { DescriptionTruncate } from '../../../components/description/Description';
@@ -60,11 +60,12 @@ export default memo(({ item, deleteItem }: IProps) => {
     }
   }, [timeWork]);
 
-  const handleDragStart = (e: DragEvent) => {
+  const handleDragStart = (e: any) => {
     const targetElement = e.target as HTMLElement;
     if (targetElement) {
       const id = targetElement.id;
-      e.dataTransfer.setData('id', id);
+      // e.dataTransfer.setData('id', id);
+      dispatch(setDraggedItemId(id));
     }
   };
 
@@ -92,12 +93,34 @@ export default memo(({ item, deleteItem }: IProps) => {
     return item.subtasks ? item.subtasks.filter((subtask) => !subtask.completed) : [];
   }, [item.subtasks]);
 
+  // touch
+
+  const handleTouchStart = (e: any) => {
+    const targetElement = e.currentTarget;
+    if (targetElement) {
+      const id = targetElement.id;
+      dispatch(setDraggedItemId(id));
+    }
+  };
+
+  const handleTouchMove = (e: any) => {
+    // Вам может потребоваться обновить позицию элемента на основе координат
+  };
+
+  const handleTouchEnd = (e: any) => {
+    dispatch(setDraggedItemId(''));
+
+    // Вы можете выполнить какие-либо действия после окончания перетаскивания
+  };
   return (
     <li
       key={item.id}
       id={item.id + ''}
-      draggable
+      draggable={true}
       onDragStart={handleDragStart}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       onClick={openTask}
       className={['task__item'].join(' ')}>
       <div className="task__date">

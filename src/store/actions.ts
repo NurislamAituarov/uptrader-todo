@@ -20,6 +20,7 @@ interface IUpdateTask {
 
 export const addNotice = (value: string) => ({ type: 'ADD_NOTICE', payload: value });
 export const addTask = (task: IItemTask) => ({ type: 'ADD_TASK', payload: task });
+export const setDraggedItemId = (value: string) => ({ type: 'DRAG_ITEM_ID', payload: value });
 
 export const addTaskChange = (taskId: number) => ({ type: 'ADD_TASK_CHANGE', payload: taskId });
 

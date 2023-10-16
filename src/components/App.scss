@@ -6,9 +6,9 @@
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
   background-color: #374a5d !important;
   font-size: 16px;
   line-height: 19px;
@@ -46,14 +46,17 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  flex-wrap: wrap;
+  gap: 20px;
   h1 {
     flex: 1;
+    min-width: 300px;
   }
 
   .btn {
     flex: 1;
     background-color: #3e65a8;
+    min-width: 300px;
   }
 }
 
@@ -75,5 +78,11 @@ h1 {
   to {
     opacity: 1;
     transform: translate(-50%) translateY(0px);
+  }
+}
+
+@media (max-width: 1180px) {
+  .main {
+    overflow-x: scroll;
   }
 }

@@ -5,6 +5,7 @@ const initial: IReducerState = {
   items: [],
   taskItem: null,
   notice: '',
+  draggedItemId: '',
 };
 
 export default function Reducer(state = initial, action: any): IReducerState {
@@ -87,6 +88,8 @@ export default function Reducer(state = initial, action: any): IReducerState {
       });
       return { ...state, items: newItems };
 
+    case 'DRAG_ITEM_ID':
+      return { ...state, draggedItemId: action.payload };
     default:
       return state;
   }

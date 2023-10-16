@@ -1,7 +1,8 @@
-import { memo, useMemo } from 'react';
+import { DragEvent, TouchEvent, memo } from 'react';
 import Item from '../item/Item';
 import { IItemTask } from '@/types';
-import { getNameGroup } from '../../../lib/helpers';
+import { getNameGroup, moveElementWithCondition } from '../../../lib/helpers';
+import { useAppSelector } from '../../../hooks/redux';
 
 interface IProps {
   group: string;
@@ -11,17 +12,37 @@ interface IProps {
   items: IItemTask[];
 }
 
-export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }: any) => {
-  const handleDrop = (e: any) => {
-    let id = e.dataTransfer.getData('id');
-    let item = items.find((item: any) => item.id === +id);
-    if (e.target.tagName === 'UL' && e.target.id !== item.group) {
-      moveGroup(item.id, e.target.id);
-    } else if (e.target.tagName === 'LI' && e.target.id !== item.id) {
-      let group = items.find((item: any) => item.id === +e.target.id).group;
-      moveGroup(item.id, group);
+export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }: IProps) => {
+  const dragItemId = useAppSelector((state) => state.state.draggedItemId);
+  const handleDrop = (e: DragEvent<HTMLElement> | TouchEvent<HTMLElement>) => {
+    const id = dragItemId;
+    if (id) {
+      let item = items.find((item) => item.id === +id);
+      const target = e.currentTarget;
+
+      item && moveElementWithCondition(target, item, moveGroup, items);
+
+      if (e.type === 'touchend') {
+        // Обработка события onTouchEnd
+        const event = e as React.TouchEvent<HTMLElement>;
+        const touches = event.changedTouches;
+        if (touches.length > 0) {
+          let touchEndElement = document.elementFromPoint(touches[0].clientX, touches[0].clientY);
+          const li = document.querySelectorAll('.task__item');
+          li.forEach((el) => {
+            if (el.contains(touchEndElement)) {
+              touchEndElement = el;
+            }
+          });
+
+          touchEndElement &&
+            item &&
+            moveElementWithCondition(touchEndElement, item, moveGroup, items);
+        }
+      }
     }
   };
+
   const itemList = groupItems.map((item: any) => {
     return <Item item={item} key={item.id} deleteItem={deleteItem} />;
   });
@@ -32,10 +53,12 @@ export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }:
       <ul
         className="col"
         id={group}
+        draggable={true}
         onDragOver={(e) => {
           e.preventDefault();
         }}
-        onDrop={handleDrop}>
+        onDrop={handleDrop}
+        onTouchEnd={handleDrop}>
         {itemList}
       </ul>
     </div>
