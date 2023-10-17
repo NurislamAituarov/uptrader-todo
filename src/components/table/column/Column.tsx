@@ -34,7 +34,7 @@ export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }:
               touchEndElement = el;
             }
           });
-
+          console.log(touchEndElement);
           touchEndElement &&
             item &&
             moveElementWithCondition(touchEndElement, item, moveGroup, items);

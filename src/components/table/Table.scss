@@ -1,13 +1,13 @@
 .table__content {
-  min-height: 200px;
   margin-top: 40px;
-  min-height: 100vh;
+  min-height: 80vh;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 40px;
-  // justify-content: space-around;
 }
-
+.col {
+  position: relative;
+}
 #notice {
   position: absolute;
   width: max-content;

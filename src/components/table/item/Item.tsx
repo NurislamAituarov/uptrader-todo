@@ -32,6 +32,8 @@ export default memo(({ item, deleteItem }: IProps) => {
   const idInterval = useRef<NodeJS.Timer | null>(null);
   const dispatch = useAppDispatch();
   const context = useContext(Context);
+  const wrapperTable = useRef<HTMLElement | null>(null);
+  const refItem = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (item.group === 'Development') {
@@ -41,6 +43,8 @@ export default memo(({ item, deleteItem }: IProps) => {
     }
 
     setDataLocalStorage('tasks', items);
+    refItem.current = document.getElementById(`${item.id}`);
+    wrapperTable.current = document.querySelector(`#${item.group}`) as HTMLElement;
 
     return () => {
       if (idInterval.current !== null) {
@@ -64,7 +68,6 @@ export default memo(({ item, deleteItem }: IProps) => {
     const targetElement = e.target as HTMLElement;
     if (targetElement) {
       const id = targetElement.id;
-      // e.dataTransfer.setData('id', id);
       dispatch(setDraggedItemId(id));
     }
   };
@@ -94,24 +97,52 @@ export default memo(({ item, deleteItem }: IProps) => {
   }, [item.subtasks]);
 
   // touch
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleTouchStart = (e: any) => {
     const targetElement = e.currentTarget;
     if (targetElement) {
       const id = targetElement.id;
       dispatch(setDraggedItemId(id));
+
+      setIsDragging(true);
     }
   };
 
   const handleTouchMove = (e: any) => {
-    // Вам может потребоваться обновить позицию элемента на основе координат
+    if (isDragging) {
+      const touch = e.touches[0];
+
+      const element = document.getElementById(`${item.id}`);
+
+      if (element) {
+        element.style.position = 'absolute';
+        if (wrapperTable.current) {
+          element.style.zIndex = '10';
+
+          element.style.top = `${
+            touch.pageY - wrapperTable.current.offsetTop - element.offsetHeight / 2
+          }px`;
+          element.style.left = `${
+            touch.pageX - wrapperTable.current.offsetLeft - element.offsetWidth / 2
+          }px`;
+        }
+      }
+    }
   };
 
   const handleTouchEnd = (e: any) => {
     dispatch(setDraggedItemId(''));
+    setIsDragging(false);
 
-    // Вы можете выполнить какие-либо действия после окончания перетаскивания
+    if (refItem.current) {
+      refItem.current.style.position = 'relative';
+      refItem.current.style.top = '0px';
+      refItem.current.style.left = '0px';
+      refItem.current.style.zIndex = '0';
+    }
   };
+
   return (
     <li
       key={item.id}
@@ -122,7 +153,7 @@ export default memo(({ item, deleteItem }: IProps) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onClick={openTask}
-      className={['task__item'].join(' ')}>
+      className={'task__item'}>
       <div className="task__date">
         <p className="date-create">
           Дата создания: <span>{item.dateCreate}</span>
