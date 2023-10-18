@@ -80,6 +80,11 @@ ul {
     width: 1110px;
   }
   .container {
-    width: 355px;
+    width: 343px;
+  }
+}
+@media (max-width: 386px) {
+  .container {
+    width: 315px;
   }
 }
