@@ -1,6 +1,7 @@
 import {
   DragEvent,
   MouseEvent,
+  TouchEventHandler,
   memo,
   useContext,
   useEffect,
@@ -29,11 +30,12 @@ export default memo(({ item, deleteItem }: IProps) => {
   const items = useAppSelector((state) => state.state.items);
   const [timeWork, setTimeWork] = useState(0);
   const refTimeWorkItem = useRef(item.timeWork);
-  const idInterval = useRef<NodeJS.Timer | null>(null);
   const dispatch = useAppDispatch();
   const context = useContext(Context);
-  const wrapperTable = useRef<HTMLElement | null>(null);
+  const idInterval = useRef<NodeJS.Timer | null>(null);
+  const refColumn = useRef<HTMLElement | null>(null);
   const refItem = useRef<HTMLElement | null>(null);
+  const refMain = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (item.group === 'Development') {
@@ -44,7 +46,8 @@ export default memo(({ item, deleteItem }: IProps) => {
 
     setDataLocalStorage('tasks', items);
     refItem.current = document.getElementById(`${item.id}`);
-    wrapperTable.current = document.querySelector(`#${item.group}`) as HTMLElement;
+    refColumn.current = document.querySelector(`#${item.group}`);
+    refMain.current = document.querySelector('.main');
 
     return () => {
       if (idInterval.current !== null) {
@@ -98,49 +101,67 @@ export default memo(({ item, deleteItem }: IProps) => {
 
   // touch
   const [isDragging, setIsDragging] = useState(false);
-
-  const handleTouchStart = (e: any) => {
+  const [stateStart, setStateStart] = useState({
+    startX: 0,
+    startY: 0,
+  });
+  const handleTouchStart: TouchEventHandler<HTMLLIElement> = (e) => {
     const targetElement = e.currentTarget;
+
     if (targetElement) {
       const id = targetElement.id;
       dispatch(setDraggedItemId(id));
-
       setIsDragging(true);
     }
+
+    const touch = e.touches[0];
+    setStateStart({
+      startX: touch.clientX,
+      startY: touch.clientY,
+    });
   };
 
-  const handleTouchMove = (e: any) => {
+  const handleTouchMove: TouchEventHandler<HTMLLIElement> = (e) => {
     if (isDragging) {
       const touch = e.touches[0];
+      const element = refItem.current;
+      const deltaX = touch.clientX - stateStart.startX;
+      const deltaY = touch.clientY - stateStart.startY;
 
-      const element = document.getElementById(`${item.id}`);
-
-      if (element) {
+      if (element && refColumn.current && refMain.current) {
         element.style.position = 'absolute';
-        if (wrapperTable.current) {
-          element.style.zIndex = '10';
+        element.style.zIndex = '10';
 
-          element.style.top = `${
-            touch.pageY - wrapperTable.current.offsetTop - element.offsetHeight / 2
-          }px`;
-          element.style.left = `${
-            touch.pageX - wrapperTable.current.offsetLeft - element.offsetWidth / 2
-          }px`;
+        const topDistance = `${
+          touch.pageY - refColumn.current.offsetTop - element.offsetHeight / 2
+        }px`;
+        const leftDistance = `${
+          touch.pageX +
+          refMain.current.scrollLeft -
+          refColumn.current.offsetLeft -
+          element.offsetWidth / 2
+        }px`;
+        if (deltaX < 160) {
+          refMain.current.scrollBy({ left: deltaX, top: deltaY, behavior: 'smooth' });
         }
+        element.style.top = topDistance;
+        element.style.left = leftDistance;
       }
     }
   };
 
-  const handleTouchEnd = (e: any) => {
+  const handleTouchEnd: TouchEventHandler<HTMLLIElement> = (e) => {
     dispatch(setDraggedItemId(''));
     setIsDragging(false);
 
     if (refItem.current) {
-      refItem.current.style.position = 'relative';
-      refItem.current.style.top = '0px';
-      refItem.current.style.left = '0px';
-      refItem.current.style.zIndex = '0';
+      refItem.current.style.cssText = 'position: relative; top: 0px; left: 0px; z-index: 0;';
     }
+
+    setStateStart({
+      startX: 0,
+      startY: 0,
+    });
   };
 
   return (

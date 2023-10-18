@@ -14,6 +14,7 @@ interface IProps {
 
 export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }: IProps) => {
   const dragItemId = useAppSelector((state) => state.state.draggedItemId);
+
   const handleDrop = (e: DragEvent<HTMLElement> | TouchEvent<HTMLElement>) => {
     const id = dragItemId;
     if (id) {
@@ -26,6 +27,7 @@ export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }:
         // Обработка события onTouchEnd
         const event = e as React.TouchEvent<HTMLElement>;
         const touches = event.changedTouches;
+
         if (touches.length > 0) {
           let touchEndElement = document.elementFromPoint(touches[0].clientX, touches[0].clientY);
           const li = document.querySelectorAll('.task__item');
@@ -34,7 +36,6 @@ export const Column = memo(({ group, groupItems, moveGroup, deleteItem, items }:
               touchEndElement = el;
             }
           });
-          console.log(touchEndElement);
           touchEndElement &&
             item &&
             moveElementWithCondition(touchEndElement, item, moveGroup, items);
