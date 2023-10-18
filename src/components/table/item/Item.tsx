@@ -20,6 +20,7 @@ import { SubtaskIcon } from '../../../components/svg/SubtaskIcon';
 import { DescriptionTruncate } from '../../../components/description/Description';
 import './Item.scss';
 import { setDataLocalStorage } from '../../../lib/localStorage';
+import { touchMoveElement } from '../../../lib/helpers';
 
 interface IProps {
   item: IItemTask;
@@ -105,6 +106,7 @@ export default memo(({ item, deleteItem }: IProps) => {
     startX: 0,
     startY: 0,
   });
+
   const handleTouchStart: TouchEventHandler<HTMLLIElement> = (e) => {
     const targetElement = e.currentTarget;
 
@@ -128,25 +130,7 @@ export default memo(({ item, deleteItem }: IProps) => {
       const deltaX = touch.clientX - stateStart.startX;
       const deltaY = touch.clientY - stateStart.startY;
 
-      if (element && refColumn.current && refMain.current) {
-        element.style.position = 'absolute';
-        element.style.zIndex = '10';
-
-        const topDistance = `${
-          touch.pageY - refColumn.current.offsetTop - element.offsetHeight / 2
-        }px`;
-        const leftDistance = `${
-          touch.pageX +
-          refMain.current.scrollLeft -
-          refColumn.current.offsetLeft -
-          element.offsetWidth / 2
-        }px`;
-        if (deltaX < 160) {
-          refMain.current.scrollBy({ left: deltaX, top: deltaY, behavior: 'smooth' });
-        }
-        element.style.top = topDistance;
-        element.style.left = leftDistance;
-      }
+      touchMoveElement(element, refColumn, refMain, touch, deltaX, deltaY);
     }
   };
 
