@@ -28,6 +28,7 @@ export function ChangeTask() {
   });
   const [activeSubtask, setActiveSubtask] = useState('');
   const refWrapper = useRef<HTMLDivElement | null>(null);
+  const refInputSubtasks = useRef<Array<HTMLInputElement | null>>([]);
   const dispatch = useAppDispatch();
 
   // закрыть сплывающий sidebar, и удалять если в подзадачи ничего не добавили
@@ -135,6 +136,12 @@ export function ChangeTask() {
       });
       return { ...data };
     });
+
+    refInputSubtasks.current = [];
+
+    setTimeout(() => {
+      refInputSubtasks.current[refInputSubtasks.current.length - 1]?.focus();
+    }, 0);
   }
 
   function completedTask(id: string) {
@@ -156,6 +163,8 @@ export function ChangeTask() {
     setForm((data) => {
       return { ...data, subtasks: data.subtasks.filter((subtask) => subtask.id !== id) };
     });
+
+    refInputSubtasks.current = [];
   }
 
   return (
@@ -227,6 +236,7 @@ export function ChangeTask() {
                     <CheckboxIcon />
                   </div>
                   <input
+                    ref={(el) => refInputSubtasks.current.push(el)}
                     type="text"
                     name="title"
                     id={task.id}
@@ -261,7 +271,7 @@ export function ChangeTask() {
             {!!form.files?.length && (
               <div className={style['download-wrapper__files']}>
                 {form.files.map((file) => {
-                  return <FileDownload file={file} />;
+                  return <FileDownload file={file} key={file.id} />;
                 })}
               </div>
             )}

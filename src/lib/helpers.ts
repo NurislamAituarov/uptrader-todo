@@ -42,3 +42,30 @@ export function moveElementWithCondition(
     group && moveGroup(item.id, group);
   }
 }
+
+export function touchMoveElement(
+  element: HTMLElement | null,
+  refColumn: any,
+  refMain: any,
+  touch: any,
+  deltaX: number,
+  deltaY: number,
+) {
+  if (element && refColumn.current && refMain.current) {
+    element.style.position = 'absolute';
+    element.style.zIndex = '10';
+
+    const topDistance = `${touch.pageY - refColumn.current.offsetTop - element.offsetHeight / 2}px`;
+    const leftDistance = `${
+      touch.pageX +
+      refMain.current.scrollLeft -
+      refColumn.current.offsetLeft -
+      element.offsetWidth / 2
+    }px`;
+    if (deltaX < 160) {
+      refMain.current.scrollBy({ left: deltaX, top: deltaY, behavior: 'smooth' });
+    }
+    element.style.top = topDistance;
+    element.style.left = leftDistance;
+  }
+}
