@@ -8,12 +8,19 @@ interface IProps {
 }
 
 export function FileAddBtn({ handleFileChange, type }: IProps) {
+  const acceptedFileTypes = '.jpg, .jpeg, .png, .gif, .txt, .docx, .pdf, .odt';
   return (
     <div className={cn({ [style['download-add']]: type === 'change' })}>
       <label className={cn({ [style.file]: type === 'create' })} htmlFor="file">
         {type === 'change' && '+'} Добавить файл
       </label>
-      <input name="file" id="file" type="file" onChange={handleFileChange} />
+      <input
+        name="file"
+        id="file"
+        type="file"
+        onChange={handleFileChange}
+        accept={acceptedFileTypes}
+      />
     </div>
   );
 }
