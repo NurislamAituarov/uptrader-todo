@@ -13,7 +13,8 @@ export function FileDownload({ file }: IProps) {
   const typeFile = useMemo(() => {
     return (
       file.type === 'text/plain' ||
-      file?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      file?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      file?.type === 'application/vnd.oasis.opendocument.text'
     );
   }, [file]);
   const typeImg = file?.type.match(/\bimage\b/g);
