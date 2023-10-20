@@ -16,15 +16,15 @@ import { IItemTask } from '@/types';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { changeTaskTimeWork, addTaskChange, setDraggedItemId } from '../../../store/actions';
 import { Context } from '../../../lib/context';
-import { SubtaskIcon } from '../../../components/svg/SubtaskIcon';
-import { DescriptionTruncate } from '../../../components/description/Description';
+import { SubtaskIcon } from '../../svg/SubtaskIcon';
+import { DescriptionTruncate } from '../../description/Description';
 import './Item.scss';
 import { setDataLocalStorage } from '../../../lib/localStorage';
 import { touchMoveElement } from '../../../lib/helpers';
 
 interface IProps {
   item: IItemTask;
-  deleteItem: (itemId: number) => void;
+  deleteItem?: (itemId: number) => void;
 }
 
 export default memo(({ item, deleteItem }: IProps) => {
@@ -150,7 +150,6 @@ export default memo(({ item, deleteItem }: IProps) => {
 
   return (
     <li
-      key={item.id}
       id={item.id + ''}
       draggable={true}
       onDragStart={handleDragStart}
@@ -158,7 +157,7 @@ export default memo(({ item, deleteItem }: IProps) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onClick={openTask}
-      className={'task__item'}>
+      className={'task__item card dx-card'}>
       <div className="task__date">
         <p className="date-create">
           Дата создания: <span>{item.dateCreate}</span>
@@ -192,11 +191,13 @@ export default memo(({ item, deleteItem }: IProps) => {
       <button
         onClick={(e: MouseEvent) => {
           e.stopPropagation();
-          deleteItem(item.id);
+          // deleteItem(item.id);
         }}
         className="btn">
         удалить
       </button>
+
+      <div className={`card-priority priority-${item.priority}`}></div>
     </li>
   );
 });

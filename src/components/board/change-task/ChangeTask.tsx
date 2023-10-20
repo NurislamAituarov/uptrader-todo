@@ -4,14 +4,14 @@ import { debounce } from 'lodash';
 
 import style from './ChangeTask.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { CheckboxIcon } from '../../../components/svg/CheckboxIcon';
+import { CheckboxIcon } from '../../svg/CheckboxIcon';
 import { IFormTaskChange } from '@/types';
 import { addSubtask, updateTaskChange } from '../../../store/actions';
-import { DeleteIcon } from '../../../components/svg/DeleteIcon';
+import { DeleteIcon } from '../../svg/DeleteIcon';
 import { FileDownload } from './FileDownload';
 import { setDataLocalStorage } from '../../../lib/localStorage';
 import { downloadFile } from '../../../lib/helpers';
-import { FileAddBtn } from '../../../components/file-add-btn/FileAddBtn';
+import { FileAddBtn } from '../../file-add-btn/FileAddBtn';
 
 export function ChangeTask() {
   const items = useAppSelector((state) => state.state.items);
