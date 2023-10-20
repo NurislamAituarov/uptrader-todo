@@ -8,18 +8,6 @@
 .col {
   position: relative;
 }
-#notice {
-  position: absolute;
-  width: max-content;
-  left: 50%;
-  top: 70px;
-  transform: translate(-50%);
-  line-height: 20px;
-  text-align: center;
-  background: black;
-  padding: 10px 20px;
-  border-radius: 4px;
-}
 
 .addbar {
   width: 50%;

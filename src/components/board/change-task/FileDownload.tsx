@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { FileDocIcon } from '../../../components/svg/FileDocIcon';
-import { FilePdfIcon } from '../../../components/svg/FilePdfIcon';
+import { FileDocIcon } from '../../svg/FileDocIcon';
+import { FilePdfIcon } from '../../svg/FilePdfIcon';
 import style from './FileDownload.module.scss';
 import { IFile } from '@/types';
 
