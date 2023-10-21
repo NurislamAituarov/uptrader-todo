@@ -29,43 +29,12 @@ export function downloadFile(files: any, setForm: any) {
   reader.readAsDataURL(files);
 }
 
-export function moveElementWithCondition(
-  target: any,
-  item: IItemTask,
-  moveGroup: (id: number, groupId: string) => void,
-  items: IItemTask[],
-): void {
-  if (target.tagName === 'UL' && target.id !== item.group) {
-    moveGroup(item.id, target.id);
-  } else if (target.tagName === 'LI' && target.id !== item.id) {
-    let group = items.find((item: any) => item.id === +target.id)?.group;
-    group && moveGroup(item.id, group);
-  }
-}
+export function getDateEndTask(status: string) {
+  const now = new Date();
+  const UKDate = new Intl.DateTimeFormat('en-UK');
+  const formattedTime = now.toLocaleTimeString('en-UK', { hour: '2-digit', minute: '2-digit' });
 
-export function touchMoveElement(
-  element: HTMLElement | null,
-  refColumn: any,
-  refMain: any,
-  touch: any,
-  deltaX: number,
-  deltaY: number,
-) {
-  if (element && refColumn.current && refMain.current) {
-    element.style.position = 'absolute';
-    element.style.zIndex = '10';
+  const dateEnd = status === 'Done' ? `${UKDate.format(now)} ${formattedTime}` : '';
 
-    const topDistance = `${touch.pageY - refColumn.current.offsetTop - element.offsetHeight / 2}px`;
-    const leftDistance = `${
-      touch.pageX +
-      refMain.current.scrollLeft -
-      refColumn.current.offsetLeft -
-      element.offsetWidth / 2
-    }px`;
-    if (deltaX < 160) {
-      refMain.current.scrollBy({ left: deltaX, top: deltaY, behavior: 'smooth' });
-    }
-    element.style.top = topDistance;
-    element.style.left = leftDistance;
-  }
+  return dateEnd;
 }

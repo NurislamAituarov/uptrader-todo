@@ -35,14 +35,16 @@ export default function Reducer(state = initial, action: any): IReducerState {
       };
 
     case 'REMOVE_TASK':
-      const filteredItems = state.items.filter((item) => item.id !== action.payload);
+      const filteredItems = state.items
+        .filter((item) => item.id !== action.payload)
+        .map((item, ind) => {
+          return { ...item, number: ind + 1 };
+        });
       setDataLocalStorage('tasks', filteredItems);
 
       return {
         ...state,
-        items: filteredItems.map((item, ind) => {
-          return { ...item, number: ind + 1 };
-        }),
+        items: filteredItems,
       };
 
     case 'UPDATE_TASK':
@@ -86,6 +88,7 @@ export default function Reducer(state = initial, action: any): IReducerState {
         }
         return el;
       });
+
       return { ...state, items: newItems };
 
     case 'DRAG_ITEM_ID':
