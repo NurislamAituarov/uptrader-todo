@@ -3,27 +3,25 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import 'devextreme/dist/css/dx.light.css';
 
 import { Context } from '../lib/context';
-import './App.scss';
-import { Table } from './board/Table';
 import { FormCreate } from './form/FormCreate';
 import { ChangeTask } from './board/change-task/ChangeTask';
 import KanbanBoard from './board/Board';
+import './App.scss';
 import { getDataLocalStorage } from '../lib/localStorage';
 import { newMovedTaskItems } from '../store/actions';
 
 function App() {
+  const tasks = useAppSelector((state) => state.state.items);
+
   const notice = useAppSelector((state) => state.state.notice);
   const [popup, setPopup] = useState('');
   const [noticeActive, setNoticeActive] = useState(false);
-  const tasks = useAppSelector((state) => state.state.items);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const localTasks = getDataLocalStorage('tasks');
-
-    localTasks && dispatch(newMovedTaskItems(getDataLocalStorage('tasks')));
+    localTasks && dispatch(newMovedTaskItems(localTasks));
   }, []);
-
   useEffect(() => {
     if (popup) {
       document.body.style.overflow = 'hidden';
@@ -66,7 +64,6 @@ function App() {
           </p>
         )}
         <main className="main" onClick={() => setPopup('')}>
-          {/* <Table /> */}
           <KanbanBoard tasks={tasks} />
         </main>
 
