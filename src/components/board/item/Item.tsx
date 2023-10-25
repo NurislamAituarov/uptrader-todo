@@ -16,7 +16,6 @@ interface IProps {
 }
 
 export const Item = memo(({ item, deleteItem }: IProps) => {
-  // const items = useAppSelector((state) => state.state.items);
   const [timeWork, setTimeWork] = useState(0);
   const [statusGroup, setStatusGroup] = useState('');
   const refTimeWorkItem = useRef(item.timeWork);
