@@ -7,7 +7,7 @@ import { IItemTask } from '@/types';
 import { getDateEndTask, getNameGroup } from '../../lib/helpers';
 import { useAppDispatch } from '../../hooks/redux';
 import { setDataLocalStorage } from '../../lib/localStorage';
-import { addNotice, changeTaskDateEnd, removeTask } from '../../store/actions';
+import { addNotice, changeTaskDateEnd, newMovedTaskItems, removeTask } from '../../store/actions';
 import { Context } from '../../lib/context';
 import './Board.scss';
 
@@ -23,10 +23,14 @@ const KanbanBoard = ({ tasks }: IProps) => {
   const items = useRef<IItemTask[]>([]);
 
   useEffect(() => {
+    if (!items.current.length || items.current.length !== tasks.length) {
+      items.current = tasks;
+    }
+  }, [tasks]);
+
+  useEffect(() => {
     if (items.current.length) {
       setDataLocalStorage('tasks', items.current);
-    } else {
-      items.current = tasks;
     }
   }, [items.current]);
 
@@ -39,15 +43,15 @@ const KanbanBoard = ({ tasks }: IProps) => {
   }
 
   const deleteItem = (itemId: number) => {
-    const index = tasks.findIndex((item) => item.id === itemId);
-    const name = tasks[index].title;
+    const index = items.current.findIndex((item) => item.id === itemId);
+    const name = items.current[index].title;
     name && dispatch(addNotice(`${name} удален!`));
     dispatch(removeTask(itemId));
+
     context?.closePopup();
   };
 
   // Move task
-
   function handleTouchEnd(e: any) {
     const taskElement = e.itemElement;
     const groupLists = refLists.current;
@@ -81,6 +85,8 @@ const KanbanBoard = ({ tasks }: IProps) => {
         }
         return task;
       });
+
+      // dispatch(newMovedTaskItems(items.current));
     }, 0);
   }
 
@@ -97,7 +103,10 @@ const KanbanBoard = ({ tasks }: IProps) => {
           ref={(el) => el && (refLists.current[status] = el)}>
           {renderListTitle(status)}
           <ScrollView direction="vertical" showScrollbar="always" className="scrollable-list">
-            <Sortable group="tasksGroup" moveItemOnDrop={true} onDragEnd={handleTouchEnd}>
+            <Sortable
+              group="tasksGroup"
+              moveItemOnDrop={true}
+              onDragEnd={(dragResult) => handleTouchEnd(dragResult)}>
               {tasks
                 .filter((task) => task.group === status)
                 .map((task) => (

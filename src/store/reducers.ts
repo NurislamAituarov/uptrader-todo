@@ -60,6 +60,8 @@ export default function Reducer(state = initial, action: any): IReducerState {
       };
 
     case 'MOVE_TASK':
+      setDataLocalStorage('tasks', action.payload);
+
       return { ...state, items: action.payload };
 
     case 'CHANGE_TASK_TIME_WORK':

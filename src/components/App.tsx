@@ -5,7 +5,8 @@ import 'devextreme/dist/css/dx.light.css';
 import { Context } from '../lib/context';
 import { FormCreate } from './form/FormCreate';
 import { ChangeTask } from './board/change-task/ChangeTask';
-import KanbanBoard from './board/Board';
+// import KanbanBoard from './board/Board';
+import { KanbanBoard } from './board/Table';
 import './App.scss';
 import { getDataLocalStorage } from '../lib/localStorage';
 import { newMovedTaskItems } from '../store/actions';
@@ -64,6 +65,7 @@ function App() {
           </p>
         )}
         <main className="main" onClick={() => setPopup('')}>
+          {/* <KanbanBoard tasks={tasks} /> */}
           <KanbanBoard tasks={tasks} />
         </main>
 
