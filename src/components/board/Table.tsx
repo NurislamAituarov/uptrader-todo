@@ -1,15 +1,16 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { IItemTask } from '@/types';
 import { Item } from './item/Item';
 import './Table.scss';
 import { useAppDispatch } from '../../hooks/redux';
-import { newMovedTaskItems } from '../../store/actions';
+import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
+import { Context } from '../../lib/context';
+import { getDateEndTask } from '../../lib/helpers';
 
 interface IProps {
   tasks: IItemTask[];
 }
-
 interface IColumn {
   id: number;
   title: string;
@@ -35,6 +36,7 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
     },
   ]);
   const dispatch = useAppDispatch();
+  const context = useContext(Context);
 
   useEffect(() => {
     setColumns((columns) => {
@@ -51,8 +53,6 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
     const updatedColumns = [...columns];
     // Удаление задачи из начальной колонки
     const sourceColumn = updatedColumns.find((col) => {
-      console.log(col.title, columns.filter((el) => el.title === source.droppableId)[0].title);
-
       return col.title === columns.filter((el) => el.title === source.droppableId)[0].title;
     });
 
@@ -66,14 +66,18 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
           col.title === columns.filter((el) => el.title === destination.droppableId)[0].title,
       );
 
-      destinationColumn &&
-        taskToMove &&
+      //устанавливаю статус задачи куда перетащили и устанавливаю дату окончания для каждой задачи.
+
+      if (destinationColumn && taskToMove) {
         destinationColumn.tasks.splice(destination.index, 0, {
           ...taskToMove,
           group: destinationColumn?.title,
+          dateEnd: getDateEndTask(destinationColumn?.title || ''),
         });
+      }
 
-      let newUpdateTasks: any = [];
+      //Объединяю все задачи в один массив
+      let newUpdateTasks: IItemTask[] = [];
       columns.forEach((column) => {
         newUpdateTasks = [...newUpdateTasks, ...column.tasks];
       });
@@ -86,17 +90,17 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
   const deleteItem = (itemId: number) => {
     const index = tasks.findIndex((item) => item.id === itemId);
     const name = tasks[index].title;
-    // name && dispatch(addNotice(`${name} удален!`));
-    // dispatch(removeTask(itemId));
+    name && dispatch(addNotice(`${name} удален!`));
+    dispatch(removeTask(itemId));
 
-    // context?.closePopup();
+    context?.closePopup();
   };
 
   return (
-    <div className="table">
+    <div className="kanban">
       <DragDropContext onDragEnd={onDragEnd}>
         {columns.map((column, columnIndex) => (
-          <div key={column.id} className="kanban-column">
+          <div key={column.id} className="kanban__column">
             <h2>{column.title}</h2>
             <Droppable droppableId={column.title}>
               {(provided) => (
@@ -110,8 +114,8 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className="kanban-task">
-                              <Item item={task} deleteItem={deleteItem} key={task.id} />
+                              className="kanban__task">
+                              <Item item={task} deleteItem={deleteItem} />
                             </div>
                           )}
                         </Draggable>

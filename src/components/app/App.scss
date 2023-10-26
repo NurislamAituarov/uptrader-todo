@@ -1,26 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial;
-}
-
-body {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  background-color: #374a5d !important;
-  font-size: 16px;
-  line-height: 19px;
-}
-
-button,
-input,
-textarea {
-  outline: none;
-  border: none;
-}
-
 .wrapper {
   max-width: 1440px;
   margin: 0 auto;

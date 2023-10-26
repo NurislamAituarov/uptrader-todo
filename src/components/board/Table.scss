@@ -1,10 +1,10 @@
-.table {
+.kanban {
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
 
-.kanban-column {
+.kanban__column {
   min-height: 700px;
   width: 440px;
   border-radius: 8px;
@@ -16,7 +16,7 @@
   }
 }
 
-.kanban-task {
+.kanban__task {
   margin-bottom: 20px;
 }
 
@@ -39,4 +39,13 @@
 
 .priority-low {
   background-color: green;
+}
+
+@media (max-width: 1110px) {
+  .kanban {
+    width: 1120px;
+  }
+  .kanban__column {
+    width: 360px;
+  }
 }

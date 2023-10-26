@@ -3,10 +3,6 @@ interface IChangeTask {
   taskId: number;
   timeWork: number;
 }
-interface IChangeTaskDateEnd {
-  taskId: number;
-  status?: string;
-}
 
 interface IAddSubtask {
   idTask: number;
@@ -39,11 +35,6 @@ export const newMovedTaskItems = (items: Array<IItemTask>) => ({
 export const changeTaskTimeWork = ({ taskId, timeWork }: IChangeTask) => ({
   type: 'CHANGE_TASK_TIME_WORK',
   payload: { taskId, timeWork },
-});
-
-export const changeTaskDateEnd = ({ taskId, status }: IChangeTaskDateEnd) => ({
-  type: 'CHANGE_TASK_DATE_END',
-  payload: { taskId, status },
 });
 
 export const addSubtask = ({ idTask, subtasks }: IAddSubtask) => ({

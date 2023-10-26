@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import 'devextreme/dist/css/dx.light.css';
 
-import { Context } from '../lib/context';
-import { FormCreate } from './form/FormCreate';
-import { ChangeTask } from './board/change-task/ChangeTask';
+import { Context } from '../../lib/context';
+import { FormCreate } from '../form/FormCreate';
+import { ChangeTask } from '.././board/change-task/ChangeTask';
 // import KanbanBoard from './board/Board';
-import { KanbanBoard } from './board/Table';
+import { KanbanBoard } from '.././board/Table';
 import './App.scss';
-import { getDataLocalStorage } from '../lib/localStorage';
-import { newMovedTaskItems } from '../store/actions';
+import { getDataLocalStorage } from '../../lib/localStorage';
+import { newMovedTaskItems } from '../../store/actions';
 
 function App() {
   const tasks = useAppSelector((state) => state.state.items);

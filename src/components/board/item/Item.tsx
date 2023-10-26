@@ -17,49 +17,41 @@ interface IProps {
 
 export const Item = memo(({ item, deleteItem }: IProps) => {
   const [timeWork, setTimeWork] = useState(0);
-  const [statusGroup, setStatusGroup] = useState('');
   const refTimeWorkItem = useRef(item.timeWork);
   const dispatch = useAppDispatch();
   const context = useContext(Context);
   const idInterval = useRef<NodeJS.Timer | null>(null);
 
   useEffect(() => {
-    const lists = document.querySelectorAll('.list');
-    const task = document.getElementById(`${item.id}`);
-    lists.forEach((item) => {
-      if (item.contains(task) && item.id === 'Development') {
-        setStatusGroup('Development');
-        idInterval.current = setInterval(() => {
-          setTimeWork((sec) => (sec += 1));
-        }, 1000);
-      }
-    });
+    if (item.group === 'Development') {
+      idInterval.current = setInterval(() => {
+        setTimeWork((sec) => (sec += 1));
+      }, 1000);
+    }
 
     return () => {
       if (idInterval.current !== null) {
         clearInterval(idInterval.current);
-        setStatusGroup('');
       }
     };
-  }, [item]);
+  }, []);
 
   useEffect(() => {
-    const lists = document.querySelectorAll('.list');
-    const task = document.getElementById(`${item.id}`);
-    lists.forEach((list) => {
-      if (list.contains(task) && list.id === 'Development') {
-        setStatusGroup('Development');
-        dispatch(
-          changeTaskTimeWork({
-            taskId: item.id,
-            timeWork: timeWork + (refTimeWorkItem.current ? refTimeWorkItem.current : 0),
-          }),
-        );
-      }
-    });
+    if (item.group === 'Development') {
+      dispatch(
+        changeTaskTimeWork({
+          taskId: item.id,
+          timeWork: timeWork + (refTimeWorkItem.current ? refTimeWorkItem.current : 0),
+        }),
+      );
+    }
   }, [timeWork]);
 
   const classNames = ['task__item-priority', `task__item-${item.priority}`].join(' ');
+  const classNamesTimeWork = [
+    'time-work',
+    item.group === 'Development' ? 'time-work__active' : 'time-work__disabled',
+  ].join(' ');
 
   const timeWorkDate = useMemo(() => {
     const timeWorkItem = refTimeWorkItem.current ?? 0;
@@ -70,6 +62,9 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
 
     return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
   }, [timeWork]);
+  const subtaskNotCompleted = useMemo(() => {
+    return item.subtasks ? item.subtasks.filter((subtask) => !subtask.completed) : [];
+  }, [item.subtasks]);
 
   function openTask(e: MouseEvent) {
     e.stopPropagation();
@@ -79,21 +74,17 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
     }, 0);
   }
 
-  const subtaskNotCompleted = useMemo(() => {
-    return item.subtasks ? item.subtasks.filter((subtask) => !subtask.completed) : [];
-  }, [item.subtasks]);
-
   return (
-    <li id={item.id + ''} draggable={true} onClick={openTask} className={'task__item card dx-card'}>
+    <div
+      id={item.id + ''}
+      draggable={true}
+      onClick={openTask}
+      className={'task__item card dx-card'}>
       <div className="task__date">
         <p className="date-create">
           Дата создания: <span>{item.dateCreate}</span>
         </p>
-        <p
-          className={[
-            'time-work',
-            statusGroup === 'Development' ? 'time-work__active' : 'time-work__disabled',
-          ].join(' ')}>
+        <p className={classNamesTimeWork}>
           Время в работе: <span>{timeWorkDate}</span>
         </p>
         <p className="date-end">
@@ -125,6 +116,6 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
       </button>
 
       <div className={`card-priority priority-${item.priority}`}></div>
-    </li>
+    </div>
   );
 });
