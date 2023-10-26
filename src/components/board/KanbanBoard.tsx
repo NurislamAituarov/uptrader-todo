@@ -7,7 +7,7 @@ import { useAppDispatch } from '../../hooks/redux';
 import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
 import { Context } from '../../lib/context';
 import { getDateEndTask, getNameGroup } from '../../lib/helpers';
-import './Table.scss';
+import './KanbanBoard.scss';
 
 interface IProps {
   tasks: IItemTask[];

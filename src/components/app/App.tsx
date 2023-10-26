@@ -5,7 +5,7 @@ import 'devextreme/dist/css/dx.light.css';
 import { Context } from '../../lib/context';
 import { FormCreate } from '../form/FormCreate';
 import { ChangeTask } from '.././board/change-task/ChangeTask';
-import { KanbanBoard } from '.././board/Table';
+import { KanbanBoard } from '.././board/KanbanBoard';
 import { getDataLocalStorage } from '../../lib/localStorage';
 import { newMovedTaskItems } from '../../store/actions';
 import './App.scss';
