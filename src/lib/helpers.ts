@@ -36,3 +36,11 @@ export function getDateEndTask(status: string) {
 
   return dateEnd;
 }
+
+export function getTimeWorkDate(timeWorkItem: number, timeWork: number) {
+  const hours = new String(Math.floor((timeWork + timeWorkItem) / 60 / 60));
+  const minutes = new String(Math.floor((timeWork + timeWorkItem) / 60) - +hours * 60);
+  const seconds = new String((timeWork + timeWorkItem) % 60);
+
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+}
