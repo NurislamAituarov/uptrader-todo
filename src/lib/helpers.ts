@@ -1,5 +1,3 @@
-import { IItemTask } from '@/types';
-
 export function getNameGroup(group: string) {
   switch (group) {
     case 'Development':

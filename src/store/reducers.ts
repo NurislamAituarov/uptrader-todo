@@ -75,24 +75,6 @@ export default function Reducer(state = initial, action: any): IReducerState {
         }),
       };
 
-    case 'CHANGE_TASK_DATE_END':
-      const now = new Date();
-      const UKDate = new Intl.DateTimeFormat('en-UK');
-      const formattedTime = now.toLocaleTimeString('en-UK', { hour: '2-digit', minute: '2-digit' });
-
-      const newItems = state.items.map((el) => {
-        if (el.id === action.payload.taskId) {
-          return {
-            ...el,
-            dateEnd:
-              action.payload.status === 'Done' ? `${UKDate.format(now)} ${formattedTime}` : '',
-          };
-        }
-        return el;
-      });
-
-      return { ...state, items: newItems };
-
     case 'DRAG_ITEM_ID':
       return { ...state, draggedItemId: action.payload };
     default:
