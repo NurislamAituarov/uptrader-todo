@@ -1,12 +1,13 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { IItemTask } from '@/types';
+
 import { Item } from './item/Item';
-import './Table.scss';
+import { IItemTask } from '@/types';
 import { useAppDispatch } from '../../hooks/redux';
 import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
 import { Context } from '../../lib/context';
-import { getDateEndTask } from '../../lib/helpers';
+import { getDateEndTask, getNameGroup } from '../../lib/helpers';
+import './Table.scss';
 
 interface IProps {
   tasks: IItemTask[];
@@ -101,7 +102,7 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
       <DragDropContext onDragEnd={onDragEnd}>
         {columns.map((column, columnIndex) => (
           <div key={column.id} className="kanban__column">
-            <h2>{column.title}</h2>
+            <h2>{getNameGroup(column.title)}</h2>
             <Droppable droppableId={column.title}>
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>

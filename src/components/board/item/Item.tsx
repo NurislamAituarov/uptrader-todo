@@ -1,13 +1,13 @@
 import { MouseEvent, memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
-
 import cn from 'classnames';
 
-import { IItemTask } from '@/types';
-import { useAppDispatch } from '../../../hooks/redux';
-import { changeTaskTimeWork, addTaskChange } from '../../../store/actions';
-import { Context } from '../../../lib/context';
-import { SubtaskIcon } from '../../svg/SubtaskIcon';
 import { DescriptionTruncate } from '../../description/Description';
+import { SubtaskIcon } from '../../svg/SubtaskIcon';
+import { changeTaskTimeWork, addTaskChange } from '../../../store/actions';
+import { useAppDispatch } from '../../../hooks/redux';
+import { Context } from '../../../lib/context';
+import { getTimeWorkDate } from '../../../lib/helpers';
+import { IItemTask } from '@/types';
 import './Item.scss';
 
 interface IProps {
@@ -16,8 +16,8 @@ interface IProps {
 }
 
 export const Item = memo(({ item, deleteItem }: IProps) => {
-  const [timeWork, setTimeWork] = useState(0);
-  const refTimeWorkItem = useRef(item.timeWork);
+  const [seconds, setSeconds] = useState(0);
+  const timeWorkItem = useRef(item.timeWork);
   const dispatch = useAppDispatch();
   const context = useContext(Context);
   const idInterval = useRef<NodeJS.Timer | null>(null);
@@ -25,7 +25,7 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
   useEffect(() => {
     if (item.group === 'Development') {
       idInterval.current = setInterval(() => {
-        setTimeWork((sec) => (sec += 1));
+        setSeconds((sec) => (sec += 1));
       }, 1000);
     }
 
@@ -41,31 +41,29 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
       dispatch(
         changeTaskTimeWork({
           taskId: item.id,
-          timeWork: timeWork + (refTimeWorkItem.current ? refTimeWorkItem.current : 0),
+          timeWork: seconds + (timeWorkItem.current ? timeWorkItem.current : 0),
         }),
       );
     }
-  }, [timeWork]);
+  }, [seconds]);
 
+  // Динамические классы
   const classNames = ['task__item-priority', `task__item-${item.priority}`].join(' ');
   const classNamesTimeWork = [
     'time-work',
     item.group === 'Development' ? 'time-work__active' : 'time-work__disabled',
   ].join(' ');
 
+  // Кэширование данных
   const timeWorkDate = useMemo(() => {
-    const timeWorkItem = refTimeWorkItem.current ?? 0;
+    return getTimeWorkDate(timeWorkItem.current ?? 0, seconds);
+  }, [seconds]);
 
-    const hours = new String(Math.floor((timeWork + timeWorkItem) / 60 / 60));
-    const minutes = new String(Math.floor((timeWork + timeWorkItem) / 60) - +hours * 60);
-    const seconds = new String((timeWork + timeWorkItem) % 60);
-
-    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
-  }, [timeWork]);
   const subtaskNotCompleted = useMemo(() => {
     return item.subtasks ? item.subtasks.filter((subtask) => !subtask.completed) : [];
   }, [item.subtasks]);
 
+  // Открыть задачу для изменение
   function openTask(e: MouseEvent) {
     e.stopPropagation();
     setTimeout(() => {
