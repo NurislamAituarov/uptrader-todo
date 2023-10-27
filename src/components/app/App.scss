@@ -29,18 +29,16 @@
   h1 {
     flex: 1;
     min-width: 300px;
+    text-align: center;
+    color: var(--color-primary);
   }
 
   .btn {
     flex: 1;
-    background-color: #3e65a8;
+    background-color: var(--color-primary);
     min-width: 300px;
+    color: var(--color-text);
   }
-}
-
-h1 {
-  text-align: center;
-  color: #3e65a8;
 }
 
 #notice {
