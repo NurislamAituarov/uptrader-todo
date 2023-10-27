@@ -20,29 +20,6 @@
     box-shadow: var(--shadow);
   }
 
-  &-priority {
-    top: 35px;
-    right: 5px;
-    position: absolute;
-    width: max-content;
-    padding: 4px 25px;
-    border-radius: 4px;
-    color: white;
-    font-size: 12px;
-    line-height: 15px;
-  }
-
-  &-high {
-    background-color: rgb(225, 0, 0);
-  }
-  &-medium {
-    background-color: rgb(226 142 0);
-  }
-
-  &-low {
-    background-color: green;
-  }
-
   .task__date {
     font-size: 12px;
     line-height: 16px;
