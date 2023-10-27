@@ -37,7 +37,10 @@
     flex: 1;
     background-color: var(--color-primary);
     min-width: 300px;
-    color: var(--color-text);
+    color: var(--light-color);
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 
