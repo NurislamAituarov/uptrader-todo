@@ -1,20 +1,15 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 
-import { Item } from './item/Item';
-import { IItemTask } from '@/types';
+import { IColumn, IItemTask } from '@/types';
 import { useAppDispatch } from '../../hooks/redux';
 import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
 import { Context } from '../../lib/context';
-import { getDateEndTask, getNameGroup } from '../../lib/helpers';
-import './Table.scss';
+import { getDateEndTask } from '../../lib/helpers';
+import './KanbanBoard.scss';
+import { Column } from './column/Column';
 
 interface IProps {
-  tasks: IItemTask[];
-}
-interface IColumn {
-  id: number;
-  title: string;
   tasks: IItemTask[];
 }
 
@@ -101,32 +96,7 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
     <div className="kanban">
       <DragDropContext onDragEnd={onDragEnd}>
         {columns.map((column, columnIndex) => (
-          <div key={column.id} className="kanban__column">
-            <h2>{getNameGroup(column.title)}</h2>
-            <Droppable droppableId={column.title}>
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {!!column.tasks.length &&
-                    column.tasks.map((task, taskIndex) => {
-                      return (
-                        <Draggable key={task.id} draggableId={task.id.toString()} index={taskIndex}>
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="kanban__task">
-                              <Item item={task} deleteItem={deleteItem} />
-                            </div>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
+          <Column column={column} key={column.id} deleteItem={deleteItem} />
         ))}
       </DragDropContext>
     </div>

@@ -68,3 +68,9 @@ interface IActionMoveTask {
 }
 
 export type TActions = IActionNotice | IActionTask | IActionRemove | IActionMoveTask;
+
+export interface IColumn {
+  id: number;
+  title: string;
+  tasks: IItemTask[];
+}
