@@ -74,6 +74,7 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
   return (
     <div
       id={item.id + ''}
+      tabIndex={1}
       draggable={true}
       onClick={openTask}
       className={'task__item card dx-card'}>
