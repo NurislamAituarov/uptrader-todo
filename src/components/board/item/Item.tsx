@@ -48,7 +48,6 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
   }, [seconds]);
 
   // Динамические классы
-  const classNames = ['task__item-priority', `task__item-${item.priority}`].join(' ');
   const classNamesTimeWork = [
     'time-work',
     item.group === 'Development' ? 'time-work__active' : 'time-work__disabled',
@@ -102,7 +101,6 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
       </div>
 
       <p className="task__number">№: {item.number}</p>
-      <p className={classNames}> {item.priority}</p>
 
       <button
         onClick={(e: MouseEvent) => {

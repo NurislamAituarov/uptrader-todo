@@ -11,31 +11,13 @@
   min-height: 200px;
   text-align: center;
   border-radius: 5px;
-  color: black;
+  color: var(--color-text-task);
   cursor: grab;
-  background-color: white;
-
-  &-priority {
-    top: 35px;
-    right: 5px;
-    position: absolute;
-    width: max-content;
-    padding: 4px 25px;
-    border-radius: 4px;
-    color: white;
-    font-size: 12px;
-    line-height: 15px;
-  }
-
-  &-high {
-    background-color: rgb(225, 0, 0);
-  }
-  &-medium {
-    background-color: rgb(226 142 0);
-  }
-
-  &-low {
-    background-color: green;
+  background-color: var(--task-bg);
+  border: 2px solid var(--light-color);
+  transition: all 0.5s;
+  &:hover {
+    box-shadow: var(--shadow);
   }
 
   .task__date {
@@ -60,8 +42,9 @@
   }
 
   .btn {
-    background-color: rgb(46, 46, 46);
+    background-color: var(--color-btn);
     height: 40px;
+    color: var(--light-color);
     &:hover {
       opacity: 0.9;
     }

@@ -4,7 +4,7 @@
   right: 0;
   width: 500px;
   height: 100%;
-  background-color: #233343;
+  background-color: var(--change-bg);
   z-index: 100;
   padding: 10px;
   animation: change-sidebar 0.5s ease-in-out;
