@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import 'devextreme/dist/css/dx.light.css';
 
@@ -40,7 +40,8 @@ function App() {
     }, 2000);
   }, [notice]);
 
-  function openPopup() {
+  function openPopup(e: MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     setPopup('create');
   }
   function openPopupChange() {
@@ -96,7 +97,7 @@ function App() {
 
   return (
     <Context.Provider value={{ popup, closePopup, openPopupChange }}>
-      <div className="wrapper">
+      <div className="wrapper" onClick={closePopup}>
         <div className="project__control">
           <SwitchTheme toggleTheme={toggleTheme} checked={checked} />
           <h1>Название проекта</h1>
@@ -110,7 +111,7 @@ function App() {
             {notice}
           </p>
         )}
-        <main className="main" onClick={closePopup}>
+        <main className="main">
           <KanbanBoard tasks={tasks} />
         </main>
 

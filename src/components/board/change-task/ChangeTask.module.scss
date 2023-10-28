@@ -9,6 +9,7 @@
   padding: 10px;
   animation: change-sidebar 0.5s ease-in-out;
   overflow-y: auto;
+  z-index: 5001;
 }
 
 form {
