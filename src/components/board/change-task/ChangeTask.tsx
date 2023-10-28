@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, MouseEvent, useContext, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { motion } from 'framer-motion';
 import { debounce } from 'lodash';
@@ -13,6 +13,8 @@ import { FileDownload } from './FileDownload';
 import { setDataLocalStorage } from '../../../lib/localStorage';
 import { downloadFile } from '../../../lib/helpers';
 import { FileAddBtn } from '../../file-add-btn/FileAddBtn';
+import { ForwardIcon } from '../../svg/ForwardIcon';
+import { Context } from '../../../lib/context';
 
 interface IProps {
   isAnimating: boolean;
@@ -35,6 +37,7 @@ export function ChangeTask({ isAnimating }: IProps) {
   const refWrapper = useRef<HTMLDivElement | null>(null);
   const refInputSubtasks = useRef<Array<HTMLInputElement | null>>([]);
   const dispatch = useAppDispatch();
+  const popup = useContext(Context);
 
   // закрыть сплывающий sidebar, и удалять если в подзадачи ничего не добавили
   useEffect(() => {
@@ -172,6 +175,10 @@ export function ChangeTask({ isAnimating }: IProps) {
     refInputSubtasks.current = [];
   }
 
+  function closeChangeTask() {
+    popup?.closePopup();
+  }
+
   // Motion anim
 
   const variants = {
@@ -194,6 +201,10 @@ export function ChangeTask({ isAnimating }: IProps) {
       ref={refWrapper}
       className={style.wrapper}>
       <form>
+        <div className={style.collapse} onClick={closeChangeTask}>
+          <span>Закрыть</span>
+          <ForwardIcon />
+        </div>
         <input
           className={style.title}
           name="title"

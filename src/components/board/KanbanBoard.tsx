@@ -44,7 +44,6 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return; // Не было перемещения
-
     const { source, destination, draggableId } = result;
     const updatedColumns = [...columns];
     // Удаление задачи из начальной колонки

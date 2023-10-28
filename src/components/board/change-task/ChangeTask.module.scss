@@ -9,6 +9,7 @@
   padding: 10px;
   animation: change-sidebar 0.5s ease-in-out;
   overflow-y: auto;
+  z-index: 5001;
 }
 
 form {
@@ -197,13 +198,35 @@ form {
       margin-top: 10px;
     }
   }
+  .collapse {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 900;
+    text-transform: uppercase;
+    gap: 10px;
+    border: 1px solid #5f6a74;
+    padding: 0 10px;
+    border-radius: 4px;
+    transition: all 0.5s;
+
+    &:hover {
+      border: 1px solid #464f58;
+      svg {
+        transition: all 0.5s;
+        transform: translateX(10px);
+      }
+    }
+  }
 }
 
-// @keyframes change-sidebar {
-//   from {
-//     transform: translateX(100%);
-//   }
-//   to {
-//     transform: translateX(0%);
-//   }
-// }
+@media all and (max-width: 768px) {
+  .wrapper {
+    width: 50%;
+  }
+}
+@media all and (max-width: 500px) {
+  .wrapper {
+    width: 100%;
+  }
+}

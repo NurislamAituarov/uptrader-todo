@@ -72,12 +72,20 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
   }, [item.subtasks]);
 
   // Открыть задачу для изменение
+  const [taskMove, setTaskMove] = useState(false);
+
   function openTask(e: MouseEvent | any) {
     e.stopPropagation();
-    setTimeout(() => {
-      dispatch(addTaskChange(item.id));
-      context?.openPopupChange();
-    }, 0);
+    !taskMove &&
+      setTimeout(() => {
+        dispatch(addTaskChange(item.id));
+        context?.openPopupChange();
+        setTaskMove(false);
+      }, 0);
+  }
+
+  function onTouchMove(e: any) {
+    setTaskMove(true);
   }
 
   return (
@@ -87,6 +95,7 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
       draggable={true}
       onClick={openTask}
       onTouchEnd={openTask}
+      onTouchMove={onTouchMove}
       className={'task__item card dx-card'}>
       <div className="task__date">
         <p className="date-create">
