@@ -15,6 +15,7 @@
     "classnames": "^2.3.2",
     "devextreme": "^23.1.5",
     "devextreme-react": "23.1.5",
+    "framer-motion": "^10.16.4",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "react-beautiful-dnd": "^13.1.1",

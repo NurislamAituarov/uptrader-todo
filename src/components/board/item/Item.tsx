@@ -1,4 +1,13 @@
-import { MouseEvent, memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  MouseEvent,
+  TouchEventHandler,
+  memo,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import cn from 'classnames';
 
 import { DescriptionTruncate } from '../../description/Description';
@@ -63,7 +72,7 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
   }, [item.subtasks]);
 
   // Открыть задачу для изменение
-  function openTask(e: MouseEvent) {
+  function openTask(e: MouseEvent | any) {
     e.stopPropagation();
     setTimeout(() => {
       dispatch(addTaskChange(item.id));
@@ -77,6 +86,7 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
       tabIndex={1}
       draggable={true}
       onClick={openTask}
+      onTouchEnd={openTask}
       className={'task__item card dx-card'}>
       <div className="task__date">
         <p className="date-create">

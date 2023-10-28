@@ -6,7 +6,7 @@
 
 .kanban__column {
   height: calc(100vh - 130px);
-  width: 440px;
+  min-width: 440px;
   border-radius: 8px;
   vertical-align: top;
   white-space: normal;
@@ -26,6 +26,10 @@
 
 .kanban__task {
   margin-bottom: 20px;
+}
+
+.dragging-over {
+  border: 2px dashed #000; /* Цвет и толщина пунктирной рамки */
 }
 
 .card-priority {
@@ -54,6 +58,6 @@
     width: 1120px;
   }
   .kanban__column {
-    width: 360px;
+    min-width: 360px;
   }
 }

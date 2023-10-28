@@ -48,7 +48,19 @@ function App() {
   }
 
   function closePopup() {
-    setPopup('');
+    let duration = 0;
+    setIsAnimating(false);
+
+    if (popup === 'change') {
+      duration = 800;
+    } else {
+      duration = 500;
+    }
+
+    setTimeout(() => {
+      setPopup('');
+      setIsAnimating(true);
+    }, duration);
   }
 
   // Theme
@@ -79,6 +91,9 @@ function App() {
     }
   }
 
+  // Motion Animate
+  const [isAnimating, setIsAnimating] = useState(true);
+
   return (
     <Context.Provider value={{ popup, closePopup, openPopupChange }}>
       <div className="wrapper">
@@ -95,12 +110,12 @@ function App() {
             {notice}
           </p>
         )}
-        <main className="main" onClick={() => setPopup('')}>
+        <main className="main" onClick={closePopup}>
           <KanbanBoard tasks={tasks} />
         </main>
 
-        {popup === 'create' && <FormCreate />}
-        {popup === 'change' && <ChangeTask />}
+        {popup === 'create' && <FormCreate isAnimating={isAnimating} />}
+        {popup === 'change' && <ChangeTask isAnimating={isAnimating} />}
       </div>
     </Context.Provider>
   );
