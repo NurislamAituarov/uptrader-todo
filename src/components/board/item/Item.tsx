@@ -86,7 +86,7 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
       tabIndex={1}
       draggable={true}
       onClick={openTask}
-      onTouchEnd={openTask}
+      // onTouchEnd={openTask}
       className={'task__item card dx-card'}>
       <div className="task__date">
         <p className="date-create">

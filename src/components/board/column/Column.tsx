@@ -20,7 +20,7 @@ export function Column({ column, deleteItem }: IProps) {
               column.tasks.map((task, taskIndex) => {
                 return (
                   <Draggable key={task.id} draggableId={task.id.toString()} index={taskIndex}>
-                    {(provided, snapshot) => {
+                    {(provided) => {
                       return (
                         <div
                           ref={provided.innerRef}
