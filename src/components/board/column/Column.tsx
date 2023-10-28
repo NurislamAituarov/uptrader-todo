@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { getNameGroup } from '../../../lib/helpers';
 import { IColumn } from '@/types';
@@ -19,15 +20,17 @@ export function Column({ column, deleteItem }: IProps) {
               column.tasks.map((task, taskIndex) => {
                 return (
                   <Draggable key={task.id} draggableId={task.id.toString()} index={taskIndex}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className="kanban__task">
-                        <Item item={task} deleteItem={deleteItem} />
-                      </div>
-                    )}
+                    {(provided, snapshot) => {
+                      return (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="kanban__task">
+                          <Item item={task} deleteItem={deleteItem} />
+                        </div>
+                      );
+                    }}
                   </Draggable>
                 );
               })}

@@ -1,5 +1,6 @@
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
+import { motion } from 'framer-motion';
 import { debounce } from 'lodash';
 
 import style from './ChangeTask.module.scss';
@@ -13,7 +14,11 @@ import { setDataLocalStorage } from '../../../lib/localStorage';
 import { downloadFile } from '../../../lib/helpers';
 import { FileAddBtn } from '../../file-add-btn/FileAddBtn';
 
-export function ChangeTask() {
+interface IProps {
+  isAnimating: boolean;
+}
+
+export function ChangeTask({ isAnimating }: IProps) {
   const items = useAppSelector((state) => state.state.items);
   const item = useAppSelector((state) => state.state.taskItem);
   const [dropdownPriority, setDropdownPriority] = useState(false);
@@ -167,8 +172,27 @@ export function ChangeTask() {
     refInputSubtasks.current = [];
   }
 
+  // Motion anim
+
+  const variants = {
+    visible: {
+      x: 0,
+      transition: { duration: 0.5 },
+    },
+    hidden: {
+      x: 500,
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
-    <div ref={refWrapper} className={style.wrapper}>
+    <motion.div
+      layout
+      variants={variants}
+      initial={'hidden'}
+      animate={isAnimating ? 'visible' : 'hidden'}
+      ref={refWrapper}
+      className={style.wrapper}>
       <form>
         <input
           className={style.title}
@@ -278,6 +302,6 @@ export function ChangeTask() {
           </div>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

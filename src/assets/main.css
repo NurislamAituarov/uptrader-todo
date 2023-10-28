@@ -8,6 +8,8 @@
   --main-bg: #374a5d;
   --task-bg: white;
   --change-bg: #233343;
+  --thumb-bg: #233343;
+
   --light-color: aliceblue;
   --color-text-task: black;
   --color-primary: #3e65a8;
@@ -16,8 +18,10 @@
 }
 .theme-dark {
   --main-bg: #1a202c;
-  --task-bg: #1a202c;
+  --task-bg: #2c3039;
   --change-bg: #171923;
+  --thumb-bg: #9d9d9d;
+
   --light-color: black;
   --color-text-task: white;
   --color-primary: #ffffff;
@@ -35,7 +39,12 @@ body {
   line-height: 19px;
 }
 ::-webkit-scrollbar {
-  width: 0;
+  width: 5px;
+  /* background-color: var(--color-primary); */
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--thumb-bg);
+  border-radius: 5px;
 }
 
 button,

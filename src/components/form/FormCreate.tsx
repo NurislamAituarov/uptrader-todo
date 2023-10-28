@@ -1,15 +1,16 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { motion } from 'framer-motion';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addNotice, addTask } from '../../store/actions';
 import { Context } from '../../lib/context';
 import { CloseBtn } from '../close-btn/CloseBtn';
-
-import './Form.scss';
-import { IFile } from '@/types';
 import { setDataLocalStorage } from '../../lib/localStorage';
 import { CloseIcon } from '../svg/CloseIcon';
 import { downloadFile } from '../../lib/helpers';
 import { FileAddBtn } from '../file-add-btn/FileAddBtn';
+import { IFile } from '@/types';
+import './Form.scss';
 
 interface IForm {
   title: string;
@@ -18,7 +19,11 @@ interface IForm {
   files: IFile[];
 }
 
-export function FormCreate() {
+interface IProps {
+  isAnimating: boolean;
+}
+
+export function FormCreate({ isAnimating }: IProps) {
   const tasks = useAppSelector((state) => state.state.items);
   const [priority, setPriority] = useState('');
   const popup = useContext(Context);
@@ -83,9 +88,26 @@ export function FormCreate() {
     });
   }
 
+  // Motion animation
+  const variants = {
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+    hidden: {
+      opacity: 0,
+      transition: { duration: 0.3 },
+    },
+  };
+
   return (
     <>
-      <div className="popup__create">
+      <motion.div
+        layout
+        variants={variants}
+        initial={'hidden'}
+        animate={isAnimating ? 'visible' : 'hidden'}
+        className="popup__create">
         <form onSubmit={onCreateTask}>
           <div className="form__item">
             <label htmlFor="">Заголовок</label>
@@ -140,9 +162,14 @@ export function FormCreate() {
 
           <CloseBtn type="type-1" handelMore={closeForm} />
         </form>
-      </div>
+      </motion.div>
 
-      <div onClick={closeForm} className="overlay"></div>
+      <motion.div
+        variants={variants}
+        initial={'hidden'}
+        animate={isAnimating ? 'visible' : 'hidden'}
+        onClick={closeForm}
+        className="overlay"></motion.div>
     </>
   );
 }

@@ -8,15 +8,17 @@
   padding-left: 16px;
   list-style: none;
   width: 100%;
-  min-height: 200px;
+  min-height: 175px;
   text-align: center;
   border-radius: 5px;
   color: var(--color-text-task);
   cursor: grab;
   background-color: var(--task-bg);
-  border: 2px solid var(--light-color);
+  border: 1px solid var(--light-color);
   transition: all 0.5s;
-  &:hover {
+
+  &:hover,
+  &:focus {
     box-shadow: var(--shadow);
   }
 
