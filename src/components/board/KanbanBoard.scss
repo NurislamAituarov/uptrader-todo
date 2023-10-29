@@ -5,7 +5,7 @@
 }
 
 .kanban__column {
-  height: calc(100vh - 130px);
+  // height: calc(100vh - 130px);
   min-width: 440px;
   border-radius: 8px;
   vertical-align: top;
@@ -19,7 +19,6 @@
 [data-rbd-droppable-id] {
   width: 100%;
   height: 90%;
-  // overflow-y: auto;
   padding: 5px;
   padding-right: 10px;
 }
@@ -64,5 +63,6 @@
 @media (max-width: 425px) {
   .kanban__column {
     min-width: 330px;
+    max-width: 330px;
   }
 }
