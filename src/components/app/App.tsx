@@ -97,7 +97,7 @@ function App() {
 
   return (
     <Context.Provider value={{ popup, closePopup, openPopupChange }}>
-      <div className="wrapper" onClick={closePopup}>
+      <div className="wrapper">
         <div className="project__control">
           <SwitchTheme toggleTheme={toggleTheme} checked={checked} />
           <h1>Название проекта</h1>
@@ -111,7 +111,7 @@ function App() {
             {notice}
           </p>
         )}
-        <main className="main">
+        <main className="main" onClick={closePopup}>
           <KanbanBoard tasks={tasks} />
         </main>
 

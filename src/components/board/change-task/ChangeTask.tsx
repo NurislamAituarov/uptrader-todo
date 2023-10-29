@@ -15,6 +15,7 @@ import { downloadFile } from '../../../lib/helpers';
 import { FileAddBtn } from '../../file-add-btn/FileAddBtn';
 import { ForwardIcon } from '../../svg/ForwardIcon';
 import { Context } from '../../../lib/context';
+import { SelectCustom } from '../../select/Select';
 
 interface IProps {
   isAnimating: boolean;
@@ -23,7 +24,6 @@ interface IProps {
 export function ChangeTask({ isAnimating }: IProps) {
   const items = useAppSelector((state) => state.state.items);
   const item = useAppSelector((state) => state.state.taskItem);
-  const [dropdownPriority, setDropdownPriority] = useState(false);
   const [form, setForm] = useState<IFormTaskChange>({
     id: 0,
     title: '',
@@ -42,11 +42,6 @@ export function ChangeTask({ isAnimating }: IProps) {
   // закрыть сплывающий sidebar, и удалять если в подзадачи ничего не добавили
   useEffect(() => {
     document.body.addEventListener('click', (e: any) => {
-      const target = e.target as HTMLElement;
-      if (refWrapper.current && refWrapper.current.contains(target)) {
-        setDropdownPriority(false);
-      }
-
       setForm((data) => {
         return { ...data, subtasks: data.subtasks?.filter((subtask) => subtask.title) };
       });
@@ -116,22 +111,6 @@ export function ChangeTask({ isAnimating }: IProps) {
 
   function handleFileChange(e: any) {
     downloadFile(e.target.files[0], setForm);
-  }
-
-  function selectPriorityListItem(value: string) {
-    setForm((state) => {
-      return {
-        ...state,
-        priority: value,
-      };
-    });
-
-    setDropdownPriority(false);
-  }
-
-  function onActivatePriority(e: MouseEvent<HTMLSpanElement>) {
-    e.stopPropagation();
-    setDropdownPriority((value) => !value);
   }
 
   function addNewSubtask(e: MouseEvent<HTMLDivElement>) {
@@ -213,26 +192,7 @@ export function ChangeTask({ isAnimating }: IProps) {
           onChange={handleInputChange}
         />
         <div className={style['wrapper-input']}>
-          <label>
-            Приоритет задачи:
-            <span onClick={(e) => onActivatePriority(e)} className={style['priority-active']}>
-              {form.priority ? form.priority : '-'}
-            </span>
-          </label>
-          {dropdownPriority && (
-            <div className={style['dropdown-priority']}>
-              {['high', 'medium', 'low'].map((value, i) => {
-                return (
-                  <div
-                    key={i}
-                    onClick={() => selectPriorityListItem(value)}
-                    className={style['priority-list']}>
-                    {value}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <SelectCustom priority={form.priority} setForm={setForm} container={refWrapper.current} />
         </div>
 
         <div className={style['wrapper-input']}>
