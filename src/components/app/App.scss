@@ -45,7 +45,7 @@
 }
 
 #notice {
-  position: absolute;
+  position: fixed;
   width: max-content;
   left: 50%;
   top: 70px;
@@ -57,6 +57,7 @@
   border-radius: 4px;
   animation-name: notice-anim;
   animation-duration: 1s;
+  z-index: 100;
 }
 
 @keyframes notice-anim {

@@ -5,7 +5,7 @@ import { IColumn, IItemTask } from '@/types';
 import { useAppDispatch } from '../../hooks/redux';
 import { addNotice, newMovedTaskItems, removeTask } from '../../store/actions';
 import { Context } from '../../lib/context';
-import { getDateEndTask } from '../../lib/helpers';
+import { getDateEndTask, getNameGroup } from '../../lib/helpers';
 import './KanbanBoard.scss';
 import { Column } from './column/Column';
 
@@ -64,12 +64,19 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
       //устанавливаю статус задачи куда перетащили и устанавливаю дату окончания для каждой задачи.
 
       if (destinationColumn && taskToMove) {
+        dispatch(
+          addNotice(
+            `${taskToMove.title} перенесен в столбец ${getNameGroup(destinationColumn.title)}!`,
+          ),
+        );
+
         destinationColumn.tasks.splice(destination.index, 0, {
           ...taskToMove,
           group: destinationColumn?.title,
           dateEnd: getDateEndTask(destinationColumn?.title || ''),
         });
       }
+      console.log();
 
       //Объединяю все задачи в один массив
       let newUpdateTasks: IItemTask[] = [];

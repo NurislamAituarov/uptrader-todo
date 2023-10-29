@@ -35,9 +35,13 @@ function App() {
 
   useEffect(() => {
     setNoticeActive(true);
-    setTimeout(() => {
+    const idTime = setTimeout(() => {
       setNoticeActive(false);
     }, 2000);
+
+    return () => {
+      clearTimeout(idTime);
+    };
   }, [notice]);
 
   function openPopup(e: MouseEvent<HTMLButtonElement>) {
