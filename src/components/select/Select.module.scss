@@ -1,7 +1,13 @@
+.label {
+  display: flex !important;
+  align-items: center;
+}
+
 .priority-active {
   color: white;
   cursor: pointer;
   margin-left: 10px;
+  width: 60%;
 }
 .dropdown-priority {
   position: absolute;

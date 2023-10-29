@@ -20,6 +20,7 @@ import { SelectCustom } from '../../select/Select';
 interface IProps {
   isAnimating: boolean;
 }
+const priorityListItems = ['high', 'medium', 'low'];
 
 export function ChangeTask({ isAnimating }: IProps) {
   const items = useAppSelector((state) => state.state.items);
@@ -192,7 +193,12 @@ export function ChangeTask({ isAnimating }: IProps) {
           onChange={handleInputChange}
         />
         <div className={style['wrapper-input']}>
-          <SelectCustom priority={form.priority} setForm={setForm} container={refWrapper.current} />
+          <SelectCustom
+            priority={form.priority}
+            setForm={setForm}
+            container={refWrapper.current}
+            priorityListItems={priorityListItems}
+          />
         </div>
 
         <div className={style['wrapper-input']}>

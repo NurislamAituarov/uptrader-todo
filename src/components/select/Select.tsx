@@ -5,10 +5,11 @@ interface IProps {
   priority: string;
   setForm: any;
   container: HTMLDivElement | null;
+  priorityListItems: string[];
 }
 
-export function SelectCustom({ priority, setForm, container }: IProps) {
-  const [dropdownPriority, setDropdownPriority] = useState(false);
+export function SelectCustom({ priority, setForm, container, priorityListItems }: IProps) {
+  const [dropdownLists, setDropdownLists] = useState(false);
 
   useEffect(() => {
     document.body.addEventListener('click', handleClick);
@@ -21,7 +22,7 @@ export function SelectCustom({ priority, setForm, container }: IProps) {
   function handleClick(e: any) {
     const target = e.target as HTMLElement;
     if (container && container.contains(target)) {
-      setDropdownPriority(false);
+      setDropdownLists(false);
     }
   }
 
@@ -33,24 +34,25 @@ export function SelectCustom({ priority, setForm, container }: IProps) {
       };
     });
 
-    setDropdownPriority(false);
+    setDropdownLists(false);
   }
 
   function onActivatePriority(e: MouseEvent<HTMLSpanElement>) {
     e.stopPropagation();
-    setDropdownPriority((value) => !value);
+    setDropdownLists((value) => !value);
   }
+
   return (
     <>
-      <label>
-        Приоритет задачи:
+      <label className={style.label}>
+        <p>Приоритет задачи:</p>
         <span onClick={(e) => onActivatePriority(e)} className={style['priority-active']}>
           {priority ? priority : '-'}
         </span>
       </label>
-      {dropdownPriority && (
+      {dropdownLists && (
         <div className={style['dropdown-priority']}>
-          {['high', 'medium', 'low'].map((value, i) => {
+          {priorityListItems.map((value, i) => {
             return (
               <div
                 key={i}
