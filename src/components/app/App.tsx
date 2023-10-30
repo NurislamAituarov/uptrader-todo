@@ -1,4 +1,5 @@
 import { MouseEvent, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import 'devextreme/dist/css/dx.light.css';
 
@@ -35,9 +36,13 @@ function App() {
 
   useEffect(() => {
     setNoticeActive(true);
-    setTimeout(() => {
+    const idTime = setTimeout(() => {
       setNoticeActive(false);
     }, 2000);
+
+    return () => {
+      clearTimeout(idTime);
+    };
   }, [notice]);
 
   function openPopup(e: MouseEvent<HTMLButtonElement>) {
@@ -95,6 +100,21 @@ function App() {
   // Motion Animate
   const [isAnimating, setIsAnimating] = useState(true);
 
+  const variants = {
+    visible: {
+      y: 180,
+      x: '-50%',
+      opacity: 1,
+      transition: { duration: 0.8 },
+    },
+    hidden: {
+      y: 0,
+      x: '-50%',
+      opacity: 0,
+      transition: { duration: 0.8 },
+    },
+  };
+
   return (
     <Context.Provider value={{ popup, closePopup, openPopupChange }}>
       <div className="wrapper">
@@ -107,9 +127,14 @@ function App() {
         </div>
 
         {notice && noticeActive && (
-          <p id="notice" className="notice">
+          <motion.p
+            variants={variants}
+            initial={'hidden'}
+            animate={isAnimating ? 'visible' : 'hidden'}
+            id="notice"
+            className="notice">
             {notice}
-          </p>
+          </motion.p>
         )}
         <main className="main" onClick={closePopup}>
           <KanbanBoard tasks={tasks} />

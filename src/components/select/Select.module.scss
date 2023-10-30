@@ -4,14 +4,21 @@
 }
 
 .priority-active {
+  flex: 1;
   color: white;
   cursor: pointer;
   margin-left: 10px;
-  width: 60%;
+  padding: 5px;
+  border: 1px solid var(--change-bg);
+  border-radius: 4px;
+  transition: border-color 500ms;
+  &:hover {
+    border: 1px solid #5f6a74;
+  }
 }
 .dropdown-priority {
   position: absolute;
-  width: 70%;
+  width: 68%;
   right: 0;
   top: 100%;
   background-color: white;
