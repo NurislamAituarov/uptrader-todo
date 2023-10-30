@@ -75,7 +75,10 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
         destinationColumn.tasks.splice(destination.index, 0, {
           ...taskToMove,
           group: destinationColumn?.title,
-          dateEnd: getDateEndTask(destinationColumn?.title || ''),
+          dateEnd:
+            destinationColumn.title !== taskToMove.group
+              ? getDateEndTask(destinationColumn?.title || '')
+              : taskToMove.dateEnd,
         });
       }
 
