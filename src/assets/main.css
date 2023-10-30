@@ -2,8 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial;
 }
+
 .theme-light {
   --main-bg: #374a5d;
   --task-bg: white;
@@ -37,10 +37,10 @@ body {
   background-color: var(--main-bg) !important;
   font-size: 16px;
   line-height: 19px;
+  font-family: Arial;
 }
 ::-webkit-scrollbar {
   width: 5px;
-  /* background-color: var(--color-primary); */
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--thumb-bg);
