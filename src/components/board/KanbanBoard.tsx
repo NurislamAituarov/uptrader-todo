@@ -64,11 +64,13 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
       //устанавливаю статус задачи куда перетащили и устанавливаю дату окончания для каждой задачи.
 
       if (destinationColumn && taskToMove) {
-        dispatch(
-          addNotice(
-            `${taskToMove.title} перенесен в столбец ${getNameGroup(destinationColumn.title)}!`,
-          ),
-        );
+        if (destinationColumn.title !== taskToMove.group) {
+          dispatch(
+            addNotice(
+              `${taskToMove.title} перенесен в столбец ${getNameGroup(destinationColumn.title)}!`,
+            ),
+          );
+        }
 
         destinationColumn.tasks.splice(destination.index, 0, {
           ...taskToMove,
@@ -76,7 +78,6 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
           dateEnd: getDateEndTask(destinationColumn?.title || ''),
         });
       }
-      console.log();
 
       //Объединяю все задачи в один массив
       let newUpdateTasks: IItemTask[] = [];

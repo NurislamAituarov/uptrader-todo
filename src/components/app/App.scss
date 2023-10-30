@@ -48,27 +48,14 @@
   position: fixed;
   width: max-content;
   left: 50%;
-  top: 70px;
-  transform: translate(-50%);
+  // transform: translate(-50%);
+  top: -100px;
   line-height: 20px;
   text-align: center;
   background: black;
   padding: 10px 20px;
   border-radius: 4px;
-  animation-name: notice-anim;
-  animation-duration: 1s;
   z-index: 100;
-}
-
-@keyframes notice-anim {
-  from {
-    opacity: 0;
-    transform: translate(-50%) translateY(-100px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%) translateY(0px);
-  }
 }
 
 @media (max-width: 1180px) {
