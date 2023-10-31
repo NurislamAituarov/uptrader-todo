@@ -67,6 +67,9 @@
 }
 
 @media all and (max-width: 524px) {
+  .wrapper {
+    padding: 10px;
+  }
   .project__control h1 {
     min-width: 260px;
     font-size: 28px;
