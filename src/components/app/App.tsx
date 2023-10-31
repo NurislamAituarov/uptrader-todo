@@ -102,7 +102,7 @@ function App() {
 
   const variants = {
     visible: {
-      y: 180,
+      y: 120,
       x: '-50%',
       opacity: 1,
       transition: { duration: 0.8 },
