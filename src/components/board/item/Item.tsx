@@ -67,13 +67,12 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
 
   function openTask(e: MouseEvent | any) {
     e.stopPropagation();
-    dispatch(addTaskChange(item.id));
-    context?.openPopupChange();
-
-    // !taskMove &&
-    //   setTimeout(() => {
-    //     setTaskMove(false);
-    //   }, 0);
+    !taskMove &&
+      setTimeout(() => {
+        dispatch(addTaskChange(item.id));
+        context?.openPopupChange();
+        setTaskMove(false);
+      }, 0);
   }
 
   function onTouchMove(e: any) {
