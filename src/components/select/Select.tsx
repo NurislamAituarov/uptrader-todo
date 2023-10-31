@@ -46,24 +46,27 @@ export function SelectCustom({ priority, setForm, container, priorityListItems }
     <>
       <label className={style.label}>
         <p>Приоритет задачи:</p>
-        <span onClick={(e) => onActivatePriority(e)} className={style['priority-active']}>
+        <div onClick={(e) => onActivatePriority(e)} className={style['priority-active']}>
           {priority ? priority : '-'}
-        </span>
-      </label>
-      {dropdownLists && (
-        <div className={style['dropdown-priority']}>
-          {priorityListItems.map((value, i) => {
-            return (
-              <div
-                key={i}
-                onClick={() => selectPriorityListItem(value)}
-                className={style['priority-list']}>
-                {value}
-              </div>
-            );
-          })}
+          {dropdownLists && (
+            <div className={style['dropdown-priority']}>
+              {priorityListItems.map((value, i) => {
+                return (
+                  <div
+                    key={i}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      selectPriorityListItem(value);
+                    }}
+                    className={style['priority-list']}>
+                    {value}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-      )}
+      </label>
     </>
   );
 }
