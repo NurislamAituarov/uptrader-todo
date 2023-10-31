@@ -4,6 +4,7 @@
 }
 
 .priority-active {
+  position: relative;
   flex: 1;
   color: white;
   cursor: pointer;
@@ -18,9 +19,9 @@
 }
 .dropdown-priority {
   position: absolute;
-  width: 68%;
+  width: 100%;
   right: 0;
-  top: 100%;
+  bottom: -120px;
   background-color: white;
   color: black;
   padding: 10px 0;
