@@ -180,7 +180,7 @@ export function ChangeTask({ isAnimating }: IProps) {
       animate={isAnimating ? 'visible' : 'hidden'}
       ref={refWrapper}
       className={style.wrapper}>
-      <form>
+      <form className={style.form}>
         <div className={style.collapse} onClick={closeChangeTask}>
           <span>Закрыть</span>
           <ForwardIcon />
