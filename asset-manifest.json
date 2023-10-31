@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/uptrader-todo/static/css/main.43f42e87.css",
-    "main.js": "/uptrader-todo/static/js/main.39b99423.js",
+    "main.css": "/uptrader-todo/static/css/main.f59d5c7c.css",
+    "main.js": "/uptrader-todo/static/js/main.e2dfb648.js",
     "static/media/dxicons.woff": "/uptrader-todo/static/media/dxicons.88c9febb051d9204a743.woff",
     "static/media/dxicons.ttf": "/uptrader-todo/static/media/dxicons.dee5683ec0edb6c19034.ttf",
     "static/media/dxicons.woff2": "/uptrader-todo/static/media/dxicons.52cf573f82922400fd7f.woff2",
     "static/media/sunny.svg": "/uptrader-todo/static/media/sunny.2d628eb5366ef2b58762.svg",
     "index.html": "/uptrader-todo/index.html",
     "static/media/night.svg": "/uptrader-todo/static/media/night.a1c1f71cb695cf8108a7.svg",
-    "main.43f42e87.css.map": "/uptrader-todo/static/css/main.43f42e87.css.map",
-    "main.39b99423.js.map": "/uptrader-todo/static/js/main.39b99423.js.map"
+    "main.f59d5c7c.css.map": "/uptrader-todo/static/css/main.f59d5c7c.css.map",
+    "main.e2dfb648.js.map": "/uptrader-todo/static/js/main.e2dfb648.js.map"
   },
   "entrypoints": [
-    "static/css/main.43f42e87.css",
-    "static/js/main.39b99423.js"
+    "static/css/main.f59d5c7c.css",
+    "static/js/main.e2dfb648.js"
   ]
 }
