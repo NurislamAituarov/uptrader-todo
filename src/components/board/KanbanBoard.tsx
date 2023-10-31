@@ -86,9 +86,19 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
         );
         const columnsTasks = document.querySelectorAll('.kanban__column');
 
-        columnsTasks.forEach((column) => {
+        columnsTasks.forEach(async (column) => {
           if (column.contains(columnItem)) {
-            column.scrollIntoView({ block: 'start', behavior: 'smooth', inline: 'center' });
+            await column.scrollIntoView({
+              block: 'start',
+              behavior: 'smooth',
+              inline: 'center',
+            });
+
+            // Делаем паузу для завершения прокрутки столбца
+            await new Promise((resolve) => setTimeout(resolve, 500)); // Подождать 1 секунду (или укажите необходимую задержку)
+
+            // Прокручиваем окно наверх
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         });
       }
@@ -106,7 +116,7 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
 
   const deleteItem = (itemId: number) => {
     const index = tasks.findIndex((item) => item.id === itemId);
-    const name = tasks[index].title;
+    const name = tasks[index]?.title;
     name && dispatch(addNotice(`${name} удален!`));
     dispatch(removeTask(itemId));
 
