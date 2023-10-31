@@ -140,7 +140,6 @@ export function FormCreate({ isAnimating }: IProps) {
               })}
             </div>
           </div>
-
           <div className="form__item">
             <FileAddBtn handleFileChange={handleFileChange} type="create" />
             {form.files &&
@@ -159,9 +158,8 @@ export function FormCreate({ isAnimating }: IProps) {
           <button disabled={!form.title} className="btn btn__create" type="submit">
             создать
           </button>
-
-          <CloseBtn type="type-1" handelMore={closeForm} />
         </form>
+        <CloseBtn type="type-1" handelMore={closeForm} />
       </motion.div>
 
       <motion.div
