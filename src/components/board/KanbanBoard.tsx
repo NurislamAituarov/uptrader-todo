@@ -80,6 +80,17 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
               ? getDateEndTask(destinationColumn?.title || '')
               : taskToMove.dateEnd,
         });
+
+        const columnItem = document.querySelector(
+          `[data-rbd-droppable-id=${destinationColumn.title}]`,
+        );
+        const columnsTasks = document.querySelectorAll('.kanban__column');
+
+        columnsTasks.forEach((column) => {
+          if (column.contains(columnItem)) {
+            column.scrollIntoView({ block: 'center', behavior: 'smooth', inline: 'center' });
+          }
+        });
       }
 
       //Объединяю все задачи в один массив
