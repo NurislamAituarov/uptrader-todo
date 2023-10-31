@@ -88,7 +88,7 @@ export const KanbanBoard: FC<IProps> = ({ tasks }) => {
 
         columnsTasks.forEach((column) => {
           if (column.contains(columnItem)) {
-            column.scrollIntoView({ block: 'center', behavior: 'smooth', inline: 'center' });
+            column.scrollIntoView({ block: 'start', behavior: 'smooth', inline: 'center' });
           }
         });
       }

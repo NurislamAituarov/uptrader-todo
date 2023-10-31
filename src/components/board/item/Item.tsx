@@ -1,13 +1,4 @@
-import {
-  MouseEvent,
-  TouchEventHandler,
-  memo,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { MouseEvent, memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import { DescriptionTruncate } from '../../description/Description';
@@ -76,12 +67,13 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
 
   function openTask(e: MouseEvent | any) {
     e.stopPropagation();
-    !taskMove &&
-      setTimeout(() => {
-        dispatch(addTaskChange(item.id));
-        context?.openPopupChange();
-        setTaskMove(false);
-      }, 0);
+    dispatch(addTaskChange(item.id));
+    context?.openPopupChange();
+
+    // !taskMove &&
+    //   setTimeout(() => {
+    //     setTaskMove(false);
+    //   }, 0);
   }
 
   function onTouchMove(e: any) {
@@ -125,6 +117,9 @@ export const Item = memo(({ item, deleteItem }: IProps) => {
       <button
         onClick={(e: MouseEvent) => {
           e.stopPropagation();
+          deleteItem(item.id);
+        }}
+        onTouchEnd={() => {
           deleteItem(item.id);
         }}
         className="btn">
