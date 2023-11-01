@@ -114,7 +114,6 @@ function App() {
       transition: { duration: 0.8 },
     },
   };
-
   return (
     <Context.Provider value={{ popup, closePopup, openPopupChange }}>
       <div className="wrapper">
